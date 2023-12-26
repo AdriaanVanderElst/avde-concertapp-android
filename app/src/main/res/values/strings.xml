@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Android Concert App</string>
+    <string name="detail">Concert Detail</string>
 </resources>

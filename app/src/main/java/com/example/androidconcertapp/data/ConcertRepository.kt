@@ -1,0 +1,18 @@
+package com.example.androidconcertapp.data
+
+import com.example.androidconcertapp.model.Concert
+import com.example.androidconcertapp.network.ConcertApiService
+import com.example.androidconcertapp.network.asDomainObjects
+
+interface ConcertRepository {
+    suspend fun getConcerts(): List<Concert>
+}
+
+class ApiConcertRepository(
+    private val concertApiService: ConcertApiService,
+) : ConcertRepository {
+    override suspend fun getConcerts(): List<Concert> {
+        val apiConcertResponse = concertApiService.getConcerts()
+        return apiConcertResponse.concerts.asDomainObjects()
+    }
+}
