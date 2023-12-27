@@ -1,9 +1,16 @@
 package com.example.androidconcertapp.model
 
 data class Concert(
-    var id: Int,
-    var name: String,
-//    var date: Date,
-    var price: Int,
-//    var isConfirmed: Boolean,
+    val id: Int,
+    val name: String,
+    val date: String,
+    val time: String,
+    val price: Int,
+    val isConfirmed: Boolean,
+    val address: String,
+    val city: String,
+    val organizer: String,
+    val phoneNr: String,
+    val email: String,
+    val user: String,
 )

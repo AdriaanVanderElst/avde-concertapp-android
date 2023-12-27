@@ -1,4 +1,4 @@
-package com.example.androidconcertapp.ui
+package com.example.androidconcertapp.ui.listScreen
 
 import com.example.androidconcertapp.model.Concert
 

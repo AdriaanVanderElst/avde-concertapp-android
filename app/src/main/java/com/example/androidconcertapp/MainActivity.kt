@@ -8,13 +8,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.androidconcertapp.ui.ConcertApp
-import com.example.androidconcertapp.ui.theme.AndroidConcertAppTheme
+import com.example.androidconcertapp.ui.theme.ConcertAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            AndroidConcertAppTheme {
+            ConcertAppTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),

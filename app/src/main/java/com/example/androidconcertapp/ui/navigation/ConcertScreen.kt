@@ -1,4 +1,4 @@
-package com.example.androidconcertapp.ui
+package com.example.androidconcertapp.ui.navigation
 
 import androidx.annotation.StringRes
 import com.example.androidconcertapp.R

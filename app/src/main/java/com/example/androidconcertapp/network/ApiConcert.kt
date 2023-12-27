@@ -25,6 +25,8 @@ data class ApiConcert(
 @Serializable
 data class Place(
     val id: Int,
+    val houseNr: Int,
+    val street: String,
     val city: String,
 )
 
@@ -32,6 +34,8 @@ data class Place(
 data class Organizer(
     val id: Int,
     val name: String,
+    val phoneNr: String,
+    val email: String,
 )
 
 @Serializable
@@ -42,7 +46,37 @@ data class User(
 
 fun List<ApiConcert>.asDomainObjects(): List<Concert> {
     var domainList = this.map {
-        Concert(it.id, it.name, it.price)
+        Concert(
+            it.id,
+            it.name,
+            it.date.substringBefore("T"),
+            it.date.substringAfter("T").substringBefore("."),
+            it.price,
+            it.isConfirmed,
+            it.place.street + " " + it.place.houseNr.toString(),
+            it.place.city,
+            it.organizer.name,
+            it.organizer.phoneNr,
+            it.organizer.email,
+            it.user.name,
+        )
     }
     return domainList
+}
+
+fun ApiConcert.asDomainObject(): Concert {
+    return Concert(
+        this.id,
+        this.name,
+        this.date.substringBefore("T"),
+        this.date.substringAfter("T").substringBefore("."),
+        this.price,
+        this.isConfirmed,
+        this.place.street + " " + this.place.houseNr.toString(),
+        this.place.city,
+        this.organizer.name,
+        this.organizer.phoneNr,
+        this.organizer.email,
+        this.user.name,
+    )
 }
