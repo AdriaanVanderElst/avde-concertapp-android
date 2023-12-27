@@ -1,6 +1,7 @@
 package com.example.androidconcertapp.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -29,8 +30,8 @@ fun NavComponent(
         composable(route = ConcertScreen.List.name) {
             ConcertList(viewModel = sharedViewModel, goToDetail = goToDetail)
         }
-        composable(route = "${ConcertScreen.Detail.name}/{id}") {
-            val id = it.arguments?.getString("id")?.toInt() ?: 0
+        composable(route = "${ConcertScreen.Detail.name}/{id}") { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("id")?.toInt() ?: 0
             ConcertDetails(viewModel = sharedViewModel, id = id)
         }
     }

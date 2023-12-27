@@ -25,7 +25,7 @@ fun ConcertApp(
     val backStackEntry by navController.currentBackStackEntryAsState()
     val canNavigateBack = navController.previousBackStackEntry != null
     val navigateUp: () -> Unit = { navController.navigateUp() }
-    //
+
     val goHome: () -> Unit = {
         navController.popBackStack(
             ConcertScreen.List.name,
@@ -33,20 +33,29 @@ fun ConcertApp(
         )
     }
     val goHomeAfterLogin: () -> Unit = {
-        navController.navigate(ConcertScreen.List.name)
+        navController.navigate(ConcertScreen.List.name) {
+            popUpTo(ConcertScreen.Login.name) {
+                inclusive = true
+            }
+        }
     }
 
     val goToLogin: () -> Unit = {
-        navController.navigate(ConcertScreen.Login.name)
+        navController.navigate(ConcertScreen.Login.name) {
+            popUpTo(ConcertScreen.List.name) {
+                inclusive = true
+            }
+        }
     }
 
     val goToDetail: (id: Int) -> Unit = { id ->
-        navController.navigate("${ConcertScreen.Detail.name}/$id")
+        navController.navigate("${ConcertScreen.Detail.name}/$id") {
+            launchSingleTop = true
+        }
     }
-//    val currentScreenTitle = ConcertScreen.valueOf(
-//        backStackEntry?.destination?.route ?: ConcertScreen.List.name,
-//    ).title
-    val currentScreenTitle = ConcertScreen.List.title
+    val currentScreenTitle = ConcertScreen.valueOf(
+        backStackEntry?.destination?.route?.substringBefore("/") ?: ConcertScreen.List.name,
+    ).title
 
     Scaffold(
         topBar = {

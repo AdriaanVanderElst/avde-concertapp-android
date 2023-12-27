@@ -24,17 +24,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.androidconcertapp.model.Concert
-import com.example.androidconcertapp.ui.theme.ConcertAppTheme
 import kotlinx.coroutines.launch
 
 @Composable
 fun ConcertList(
     goToDetail: (id: Int) -> Unit,
-    modifier: Modifier = Modifier,
     viewModel: ConcertListViewModel = viewModel(factory = ConcertListViewModel.Factory),
 ) {
     val concertListState by viewModel.uiState.collectAsState()
@@ -59,7 +56,7 @@ fun ConcertList(
 fun ConcertListComponent(
     concertListState: ConcertListState,
     goToDetail: (id: Int) -> Unit,
-    uiListState: List<Concert>
+    uiListState: List<Concert>,
 ) {
     val lazyListState = rememberLazyListState()
     LazyColumn(state = lazyListState) {
@@ -130,10 +127,10 @@ fun ConcertRow(
     }
 }
 //
-//// @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-//@Preview()
-//@Composable
-//fun ConcertListComponentPreview() {
+// // @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+// @Preview()
+// @Composable
+// fun ConcertListComponentPreview() {
 //    ConcertAppTheme {
 //        ConcertListComponent(
 //            concertListState = ConcertListState(
@@ -172,4 +169,4 @@ fun ConcertRow(
 //            uiListState,
 //        )
 //    }
-//}
+// }
