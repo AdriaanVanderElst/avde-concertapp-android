@@ -63,20 +63,3 @@ fun List<ApiConcert>.asDomainObjects(): List<Concert> {
     }
     return domainList
 }
-
-fun ApiConcert.asDomainObject(): Concert {
-    return Concert(
-        this.id,
-        this.name,
-        this.date.substringBefore("T"),
-        this.date.substringAfter("T").substringBefore("."),
-        this.price,
-        this.isConfirmed,
-        this.place.street + " " + this.place.houseNr.toString(),
-        this.place.city,
-        this.organizer.name,
-        this.organizer.phoneNr,
-        this.organizer.email,
-        this.user.name,
-    )
-}

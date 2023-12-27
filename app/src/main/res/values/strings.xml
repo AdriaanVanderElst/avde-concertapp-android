@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Android Concert App</string>
     <string name="detail">Concert Detail</string>
+    <string name="login">Log In</string>
+    <string name="kicks_logo_content_description">Het logo van de app eigenaar</string>
+    <string name="login_button_text">Log In</string>
 </resources>

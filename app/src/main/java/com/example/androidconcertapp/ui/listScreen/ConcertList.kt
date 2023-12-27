@@ -33,28 +33,37 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ConcertList(
-    goToDetail: (c: Concert) -> Unit,
+    goToDetail: (id: Int) -> Unit,
     modifier: Modifier = Modifier,
-    concertListViewModel: ConcertListViewModel = viewModel(factory = ConcertListViewModel.Factory),
+    viewModel: ConcertListViewModel = viewModel(factory = ConcertListViewModel.Factory),
 ) {
-    val concertListState by concertListViewModel.uiState.collectAsState()
+    val concertListState by viewModel.uiState.collectAsState()
 
-    val concertApiState = concertListViewModel.concertApiState
+    val concertApiState = viewModel.concertApiState
+    val uiListState by viewModel.uiListState.collectAsState()
 
     Box() {
         when (concertApiState) {
             is ConcertApiState.Loading -> Text("Loading...")
             is ConcertApiState.Error -> Text("Couldn't load...")
-            is ConcertApiState.Success -> ConcertListComponent(concertListState = concertListState, goToDetail = goToDetail)
+            is ConcertApiState.Success -> ConcertListComponent(
+                concertListState = concertListState,
+                uiListState = uiListState,
+                goToDetail = goToDetail,
+            )
         }
     }
 }
 
 @Composable
-fun ConcertListComponent(concertListState: ConcertListState, goToDetail: (c: Concert) -> Unit) {
+fun ConcertListComponent(
+    concertListState: ConcertListState,
+    goToDetail: (id: Int) -> Unit,
+    uiListState: List<Concert>
+) {
     val lazyListState = rememberLazyListState()
     LazyColumn(state = lazyListState) {
-        items(concertListState.concertList) {
+        items(uiListState) {
             ConcertRow(concert = it, goToDetail = goToDetail)
         }
     }
@@ -73,7 +82,7 @@ fun ConcertListComponent(concertListState: ConcertListState, goToDetail: (c: Con
 fun ConcertRow(
     modifier: Modifier = Modifier,
     concert: Concert,
-    goToDetail: (c: Concert) -> Unit,
+    goToDetail: (id: Int) -> Unit,
 ) {
     Card(
         modifier = Modifier
@@ -82,7 +91,7 @@ fun ConcertRow(
             .fillMaxWidth()
             .height(IntrinsicSize.Min)
             .clickable {
-                goToDetail(concert)
+                goToDetail(concert.id)
             },
     ) {
         Column(
@@ -120,45 +129,47 @@ fun ConcertRow(
         }
     }
 }
-
-// @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Preview()
-@Composable
-fun ConcertListComponentPreview() {
-    ConcertAppTheme {
-        ConcertListComponent(
-            concertListState = ConcertListState(
-                concertList = listOf(
-                    Concert(
-                        id = 1,
-                        name = "Concert 1",
-                        date = "2024-10-10",
-                        time = "10:00:00",
-                        price = 1000,
-                        isConfirmed = true,
-                        address = "Street 1 1",
-                        city = "City 1",
-                        organizer = "Organizer 1",
-                        phoneNr = "123456789",
-                        email = "test@test.com",
-                        user = "User 1",
-                    ),
-                    Concert(
-                        id = 2,
-                        name = "Concert 2",
-                        date = "2024-10-11",
-                        time = "10:00:00",
-                        price = 1500,
-                        isConfirmed = false,
-                        address = "Street 2 2",
-                        city = "City 2",
-                        organizer = "Organizer 2",
-                        phoneNr = "987654321",
-                        email = "test2@test.com",
-                        user = "User 2",
-                    ),
-                ),
-            ),
-        ) {}
-    }
-}
+//
+//// @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+//@Preview()
+//@Composable
+//fun ConcertListComponentPreview() {
+//    ConcertAppTheme {
+//        ConcertListComponent(
+//            concertListState = ConcertListState(
+//                concertList = listOf(
+//                    Concert(
+//                        id = 1,
+//                        name = "Concert 1",
+//                        date = "2024-10-10",
+//                        time = "10:00:00",
+//                        price = 1000,
+//                        isConfirmed = true,
+//                        address = "Street 1 1",
+//                        city = "City 1",
+//                        organizer = "Organizer 1",
+//                        phoneNr = "123456789",
+//                        email = "test@test.com",
+//                        user = "User 1",
+//                    ),
+//                    Concert(
+//                        id = 2,
+//                        name = "Concert 2",
+//                        date = "2024-10-11",
+//                        time = "10:00:00",
+//                        price = 1500,
+//                        isConfirmed = false,
+//                        address = "Street 2 2",
+//                        city = "City 2",
+//                        organizer = "Organizer 2",
+//                        phoneNr = "987654321",
+//                        email = "test2@test.com",
+//                        user = "User 2",
+//                    ),
+//                ),
+//            ),
+//            {},
+//            uiListState,
+//        )
+//    }
+//}

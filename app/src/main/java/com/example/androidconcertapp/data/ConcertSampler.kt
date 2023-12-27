@@ -40,21 +40,4 @@ object ConcertSampler {
         )
         list
     }
-
-    val getOne: () -> Concert = {
-        Concert(
-            1,
-            "Test Concert 1",
-            "2024-05-01",
-            "10:00:00",
-            1500,
-            true,
-            "Weerstraat 1",
-            "Gent",
-            "Test Organizer 1",
-            "0123456789",
-            "test@test.com",
-            "Test User 1",
-        )
-    }
 }

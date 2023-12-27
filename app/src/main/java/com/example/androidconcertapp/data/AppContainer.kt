@@ -1,5 +1,7 @@
 package com.example.androidconcertapp.data
 
+import android.content.Context
+import com.example.androidconcertapp.data.database.ConcertDatabase
 import com.example.androidconcertapp.network.ConcertApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
@@ -10,7 +12,7 @@ interface AppContainer {
     val concertRepository: ConcertRepository
 }
 
-class DefaultAppContainer : AppContainer {
+class DefaultAppContainer(private val appContext: Context) : AppContainer {
     private val baseUrl = "http://10.0.2.2:9000/api/"
     private val retrofit = Retrofit.Builder()
         .addConverterFactory(
@@ -19,9 +21,10 @@ class DefaultAppContainer : AppContainer {
         .baseUrl(baseUrl)
         .build()
 
-    val concertApiService: ConcertApiService = retrofit.create(ConcertApiService::class.java)
+    private val concertApiService: ConcertApiService = retrofit.create(ConcertApiService::class.java)
 
     override val concertRepository: ConcertRepository by lazy {
-        ApiConcertRepository(concertApiService)
+//        ApiConcertRepository(concertApiService)
+        CachingConcertRepository(ConcertDatabase.getDatabase(appContext = appContext).concertDao(), concertApiService)
     }
 }

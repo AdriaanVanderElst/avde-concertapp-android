@@ -6,12 +6,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.androidconcertapp.model.Concert
 import com.example.androidconcertapp.ui.components.ConcertAppBottomBar
 import com.example.androidconcertapp.ui.components.ConcertAppTopBar
+import com.example.androidconcertapp.ui.listScreen.ConcertListViewModel
 import com.example.androidconcertapp.ui.navigation.ConcertScreen
 import com.example.androidconcertapp.ui.navigation.NavComponent
 
@@ -19,6 +20,7 @@ import com.example.androidconcertapp.ui.navigation.NavComponent
 @Composable
 fun ConcertApp(
     navController: NavHostController = rememberNavController(),
+    sharedViewModel: ConcertListViewModel = viewModel(factory = ConcertListViewModel.Factory),
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val canNavigateBack = navController.previousBackStackEntry != null
@@ -30,8 +32,16 @@ fun ConcertApp(
             inclusive = false,
         )
     }
-    val goToDetail: (c: Concert) -> Unit = { c ->
-        navController.navigate("${ConcertScreen.Detail.name}/${c.id}") { launchSingleTop = true }
+    val goHomeAfterLogin: () -> Unit = {
+        navController.navigate(ConcertScreen.List.name)
+    }
+
+    val goToLogin: () -> Unit = {
+        navController.navigate(ConcertScreen.Login.name)
+    }
+
+    val goToDetail: (id: Int) -> Unit = { id ->
+        navController.navigate("${ConcertScreen.Detail.name}/$id")
     }
 //    val currentScreenTitle = ConcertScreen.valueOf(
 //        backStackEntry?.destination?.route ?: ConcertScreen.List.name,
@@ -46,8 +56,14 @@ fun ConcertApp(
                 currentScreenTitle = currentScreenTitle,
             )
         },
-        bottomBar = { ConcertAppBottomBar(goHome) },
+        bottomBar = { ConcertAppBottomBar(goHome) { sharedViewModel.onLogout(goToLogin) } },
     ) { innerPadding ->
-        NavComponent(navController = navController, modifier = Modifier.padding(innerPadding), goToDetail = goToDetail)
+        NavComponent(
+            navController = navController,
+            sharedViewModel = sharedViewModel,
+            modifier = Modifier.padding(innerPadding),
+            goHomeAfterLogin = goHomeAfterLogin,
+            goToDetail = goToDetail,
+        )
     }
 }

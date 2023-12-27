@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--
+    Auth0 identifiers and settings
+    ==============================
+    -->
+
+    <string name="com_auth0_scheme">app</string>
+    <string name="com_auth0_domain">adriaan-hogent-concertapp.eu.auth0.com</string>
+    <string name="com_auth0_client_id">2OmfVk5jFlt7lwh88cHZD4kDraObPxmw</string>
+    <string name="com_auth0_audience">https://adriaan-hogent-concert-api.be</string>
+
+</resources>
