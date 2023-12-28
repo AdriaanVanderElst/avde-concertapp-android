@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun ConcertList(
     goToDetail: (id: Int) -> Unit,
-    viewModel: ConcertListViewModel = viewModel(factory = ConcertListViewModel.Factory),
+    viewModel: ConcertViewModel = viewModel(factory = ConcertViewModel.Factory),
 ) {
     val concertListState by viewModel.uiState.collectAsState()
 

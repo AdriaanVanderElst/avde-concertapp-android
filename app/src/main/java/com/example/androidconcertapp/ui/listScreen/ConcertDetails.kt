@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun ConcertDetails(
     id: Int,
-    viewModel: ConcertListViewModel,
+    viewModel: ConcertViewModel,
 ) {
     val uiListState by viewModel.uiListState.collectAsState()
     val concert = uiListState.find { it.id == id }

@@ -19,12 +19,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.androidconcertapp.R
-import com.example.androidconcertapp.ui.listScreen.ConcertListViewModel
 import com.example.androidconcertapp.utils.NetworkResponse
 
 @Composable
 fun LoginScreen(
-    viewModel: ConcertListViewModel,
+    viewModel: LoginViewModel,
     goHomeAfterLogin: () -> Unit,
 ) {
     val context = LocalContext.current

@@ -1,20 +1,21 @@
 package com.example.androidconcertapp.ui.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.androidconcertapp.ui.listScreen.ConcertDetails
 import com.example.androidconcertapp.ui.listScreen.ConcertList
-import com.example.androidconcertapp.ui.listScreen.ConcertListViewModel
+import com.example.androidconcertapp.ui.listScreen.ConcertViewModel
 import com.example.androidconcertapp.ui.loginScreen.LoginScreen
+import com.example.androidconcertapp.ui.loginScreen.LoginViewModel
 
 @Composable
 fun NavComponent(
     navController: NavHostController,
-    sharedViewModel: ConcertListViewModel,
+    sharedViewModel: ConcertViewModel,
+    loginViewModel: LoginViewModel,
     modifier: Modifier,
     goHomeAfterLogin: () -> Unit,
     goToDetail: (id: Int) -> Unit,
@@ -25,7 +26,7 @@ fun NavComponent(
         modifier = modifier,
     ) {
         composable(route = ConcertScreen.Login.name) {
-            LoginScreen(viewModel = sharedViewModel, goHomeAfterLogin = goHomeAfterLogin)
+            LoginScreen(viewModel = loginViewModel, goHomeAfterLogin = goHomeAfterLogin)
         }
         composable(route = ConcertScreen.List.name) {
             ConcertList(viewModel = sharedViewModel, goToDetail = goToDetail)

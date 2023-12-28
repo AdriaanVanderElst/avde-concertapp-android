@@ -12,7 +12,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.androidconcertapp.ui.components.ConcertAppBottomBar
 import com.example.androidconcertapp.ui.components.ConcertAppTopBar
-import com.example.androidconcertapp.ui.listScreen.ConcertListViewModel
+import com.example.androidconcertapp.ui.listScreen.ConcertViewModel
+import com.example.androidconcertapp.ui.loginScreen.LoginViewModel
 import com.example.androidconcertapp.ui.navigation.ConcertScreen
 import com.example.androidconcertapp.ui.navigation.NavComponent
 
@@ -20,7 +21,8 @@ import com.example.androidconcertapp.ui.navigation.NavComponent
 @Composable
 fun ConcertApp(
     navController: NavHostController = rememberNavController(),
-    sharedViewModel: ConcertListViewModel = viewModel(factory = ConcertListViewModel.Factory),
+    sharedViewModel: ConcertViewModel = viewModel(factory = ConcertViewModel.Factory),
+    loginViewModel: LoginViewModel = LoginViewModel(),
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val canNavigateBack = navController.previousBackStackEntry != null
@@ -65,11 +67,12 @@ fun ConcertApp(
                 currentScreenTitle = currentScreenTitle,
             )
         },
-        bottomBar = { ConcertAppBottomBar(goHome) { sharedViewModel.onLogout(goToLogin) } },
+        bottomBar = { ConcertAppBottomBar(goHome, loginViewModel, { goToLogin }) },
     ) { innerPadding ->
         NavComponent(
             navController = navController,
             sharedViewModel = sharedViewModel,
+            loginViewModel = loginViewModel,
             modifier = Modifier.padding(innerPadding),
             goHomeAfterLogin = goHomeAfterLogin,
             goToDetail = goToDetail,
