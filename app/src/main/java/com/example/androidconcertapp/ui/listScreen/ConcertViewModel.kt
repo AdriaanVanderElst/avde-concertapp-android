@@ -31,6 +31,7 @@ class ConcertViewModel(private val concertRepository: ConcertRepository) : ViewM
         private set
 
     init {
+
         getRepoConcerts()
     }
 
@@ -44,7 +45,7 @@ class ConcertViewModel(private val concertRepository: ConcertRepository) : ViewM
             )
 
             concertApiState = ConcertApiState.Success
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             concertApiState = ConcertApiState.Error
         }
     }

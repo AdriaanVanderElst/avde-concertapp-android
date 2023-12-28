@@ -10,10 +10,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.example.androidconcertapp.ui.loginScreen.LoginViewModel
+import com.example.androidconcertapp.ui.loginScreen.UserState
 
 @Composable
-fun ConcertAppBottomBar(goHome: () -> Unit, loginViewModel: LoginViewModel, goToLogin: () -> Unit) {
+fun ConcertAppBottomBar(goHome: () -> Unit) {
     val context = LocalContext.current
+    val viewModel = UserState.current
     BottomAppBar(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
         contentColor = MaterialTheme.colorScheme.primary,
@@ -21,7 +23,7 @@ fun ConcertAppBottomBar(goHome: () -> Unit, loginViewModel: LoginViewModel, goTo
             IconButton(onClick = goHome) {
                 Icon(Icons.Filled.Home, contentDescription = "Go home")
             }
-            IconButton(onClick = { loginViewModel.onLogout(context, goToLogin) }) {
+            IconButton(onClick = { viewModel.onLogout(context) }) {
                 Icon(Icons.Filled.ExitToApp, contentDescription = "Go home")
             }
         },

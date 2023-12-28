@@ -15,19 +15,19 @@ import com.example.androidconcertapp.ui.loginScreen.LoginViewModel
 fun NavComponent(
     navController: NavHostController,
     sharedViewModel: ConcertViewModel,
-    loginViewModel: LoginViewModel,
+//    loginViewModel: LoginViewModel,
     modifier: Modifier,
-    goHomeAfterLogin: () -> Unit,
+//    goHomeAfterLogin: () -> Unit,
     goToDetail: (id: Int) -> Unit,
 ) {
     NavHost(
         navController = navController,
-        startDestination = ConcertScreen.Login.name,
+        startDestination = ConcertScreen.List.name,
         modifier = modifier,
     ) {
-        composable(route = ConcertScreen.Login.name) {
-            LoginScreen(viewModel = loginViewModel, goHomeAfterLogin = goHomeAfterLogin)
-        }
+//        composable(route = ConcertScreen.Login.name) {
+//            LoginScreen(viewModel = loginViewModel, goHomeAfterLogin = goHomeAfterLogin)
+//        }
         composable(route = ConcertScreen.List.name) {
             ConcertList(viewModel = sharedViewModel, goToDetail = goToDetail)
         }
