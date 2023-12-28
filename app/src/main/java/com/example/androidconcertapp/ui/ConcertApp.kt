@@ -17,7 +17,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.androidconcertapp.ui.components.ConcertAppBottomBar
 import com.example.androidconcertapp.ui.components.ConcertAppTopBar
-import com.example.androidconcertapp.ui.listScreen.ConcertViewModel
+import com.example.androidconcertapp.ui.listScreen.ConcertListViewModel
 import com.example.androidconcertapp.ui.loginScreen.UserState
 import com.example.androidconcertapp.ui.navigation.ConcertScreen
 import com.example.androidconcertapp.ui.navigation.NavComponent
@@ -26,7 +26,7 @@ import com.example.androidconcertapp.ui.navigation.NavComponent
 @Composable
 fun ConcertApp(
     navController: NavHostController = rememberNavController(),
-    sharedViewModel: ConcertViewModel = viewModel(factory = ConcertViewModel.Factory),
+//    sharedViewModel: ConcertListViewModel = viewModel(factory = ConcertListViewModel.Factory),
 ) {
     val userStateVm = UserState.current
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -86,7 +86,7 @@ fun ConcertApp(
 
             NavComponent(
                 navController = navController,
-                sharedViewModel = sharedViewModel,
+//                sharedViewModel = sharedViewModel,
 //            loginViewModel = loginViewModel,
                 modifier = Modifier.padding(innerPadding),
 //            goHomeAfterLogin = goHomeAfterLogin,

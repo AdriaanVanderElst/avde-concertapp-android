@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import com.example.androidconcertapp.model.Concert
 
 @Entity(tableName = "concerts")
-data class concertEntity(
+data class ConcertEntity(
     @PrimaryKey
     val id: Int = 0,
     val name: String = "",
@@ -22,7 +22,7 @@ data class concertEntity(
     val comment: String = "",
 )
 
-fun Concert.asDbConcert() = concertEntity(
+fun Concert.asDbConcert() = ConcertEntity(
     id = id,
     name = name,
     date = date,
@@ -38,7 +38,7 @@ fun Concert.asDbConcert() = concertEntity(
     comment = comment,
 )
 
-fun concertEntity.asDomainConcert() = Concert(
+fun ConcertEntity.asDomainConcert() = Concert(
     id = id,
     name = name,
     date = date,
@@ -53,4 +53,4 @@ fun concertEntity.asDomainConcert() = Concert(
     user = user,
     comment = comment,
 )
-fun List<concertEntity>.asDomainConcerts() = map { it.asDomainConcert() }
+fun List<ConcertEntity>.asDomainConcerts() = map { it.asDomainConcert() }

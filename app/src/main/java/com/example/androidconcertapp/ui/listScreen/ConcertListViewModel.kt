@@ -22,10 +22,10 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class ConcertViewModel(private val concertRepository: ConcertRepository) : ViewModel() {
+class ConcertListViewModel(private val concertRepository: ConcertRepository) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(ConcertState())
-    val uiState: StateFlow<ConcertState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(ConcertViewState())
+    val uiState: StateFlow<ConcertViewState> = _uiState.asStateFlow()
 
     lateinit var uiListState: StateFlow<ConcertListState>
 
@@ -53,23 +53,12 @@ class ConcertViewModel(private val concertRepository: ConcertRepository) : ViewM
         }
     }
 
-    fun setNewComment(comment: String) {
-        _uiState.update { it.copy(comment = comment) }
-    }
-
-    fun addComment(concert: Concert) {
-        Log.d("Comment", uiState.value.comment)
-//        viewModelScope.launch {
-//            concertRepository.addComment(concert, comment)
-//        }
-    }
-
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val application = (this[APPLICATION_KEY] as ConcertApplication)
                 val concertRepository = application.container.concertRepository
-                ConcertViewModel(concertRepository)
+                ConcertListViewModel(concertRepository)
             }
         }
     }

@@ -34,9 +34,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun ConcertList(
     goToDetail: (id: Int) -> Unit,
-    viewModel: ConcertViewModel = viewModel(factory = ConcertViewModel.Factory),
+    viewModel: ConcertListViewModel = viewModel(factory = ConcertListViewModel.Factory),
 ) {
-    val concertState by viewModel.uiState.collectAsState()
+    val concertViewState by viewModel.uiState.collectAsState()
 
     val concertApiState = viewModel.concertApiState
     val concertListState by viewModel.uiListState.collectAsState()
@@ -46,7 +46,7 @@ fun ConcertList(
             is ConcertApiState.Loading -> Text("Loading...")
             is ConcertApiState.Error -> Text("Couldn't load...")
             is ConcertApiState.Success -> ConcertListComponent(
-                concertState = concertState,
+                concertViewState = concertViewState,
                 concertListState = concertListState,
                 goToDetail = goToDetail,
             )
@@ -56,7 +56,7 @@ fun ConcertList(
 
 @Composable
 fun ConcertListComponent(
-    concertState: ConcertState,
+    concertViewState: ConcertViewState,
     goToDetail: (id: Int) -> Unit,
     concertListState: ConcertListState,
 ) {
@@ -68,10 +68,10 @@ fun ConcertListComponent(
     }
     val coroutineScope = rememberCoroutineScope()
 
-    LaunchedEffect(concertState.scrollActionIndex) {
-        if (concertState.scrollActionIndex != 0) {
+    LaunchedEffect(concertViewState.scrollActionIndex) {
+        if (concertViewState.scrollActionIndex != 0) {
             coroutineScope.launch {
-                lazyListState.animateScrollToItem(concertState.scrollToItemIndex)
+                lazyListState.animateScrollToItem(concertViewState.scrollToItemIndex)
             }
         }
     }
@@ -135,7 +135,7 @@ fun ConcertRow(
 fun ConcertListComponentPreview() {
     ConcertAppTheme {
         ConcertListComponent(
-            concertState = ConcertState(),
+            concertViewState = ConcertViewState(),
             goToDetail = {},
             concertListState = ConcertListState(
                 listOf(

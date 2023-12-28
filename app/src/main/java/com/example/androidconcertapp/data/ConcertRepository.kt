@@ -44,10 +44,6 @@ class CachingConcertRepository(
     override fun getItems(): Flow<List<Concert>> {
         return concertDao.getItems().map {
             it.asDomainConcerts()
-        }.onEach {
-            if (it.isEmpty()) {
-//                refresh()
-            }
         }
     }
 
