@@ -8,8 +8,6 @@ import androidx.navigation.compose.composable
 import com.example.androidconcertapp.ui.listScreen.ConcertDetails
 import com.example.androidconcertapp.ui.listScreen.ConcertList
 import com.example.androidconcertapp.ui.listScreen.ConcertViewModel
-import com.example.androidconcertapp.ui.loginScreen.LoginScreen
-import com.example.androidconcertapp.ui.loginScreen.LoginViewModel
 
 @Composable
 fun NavComponent(

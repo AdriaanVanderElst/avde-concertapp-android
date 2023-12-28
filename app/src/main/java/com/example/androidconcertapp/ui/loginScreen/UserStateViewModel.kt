@@ -8,15 +8,23 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.auth0.android.Auth0
 import com.auth0.android.authentication.AuthenticationException
 import com.auth0.android.callback.Callback
 import com.auth0.android.provider.WebAuthProvider
 import com.auth0.android.result.Credentials
+import com.example.androidconcertapp.ConcertApplication
+import com.example.androidconcertapp.R
+import com.example.androidconcertapp.data.UserRepository
 import com.example.androidconcertapp.model.User
 import com.example.androidconcertapp.utils.NetworkResponse
+import kotlinx.coroutines.launch
 
-class LoginViewModel() : ViewModel() {
+class UserStateViewModel(private val userRepository: UserRepository) : ViewModel() {
 
     val loginState: MutableState<NetworkResponse<String>> =
         mutableStateOf(NetworkResponse.Failure(""))
@@ -32,7 +40,7 @@ class LoginViewModel() : ViewModel() {
         WebAuthProvider
             .login(auth)
             .withScheme("app")
-            // .withAudience
+            .withAudience(context.getString(R.string.com_auth0_audience))
             .start(
                 context,
                 object : Callback<Credentials, AuthenticationException> {
@@ -41,13 +49,13 @@ class LoginViewModel() : ViewModel() {
                     }
 
                     override fun onSuccess(result: Credentials) {
+                        Log.d("Access Token", result.accessToken)
                         user = User(result.idToken, result.accessToken)
-
                         user.accessToken?.let { saveTokenToSharedPreferences(context, it) }
-                        Log.d("Login", "Success: ${user.name}")
-//                        viewModelScope.launch {
-//                            userApiRepository.addUser(user)
-//                        }
+                        Log.d("UserInfo", "${user.name} with id: ${user.id} logged in.")
+                        viewModelScope.launch {
+                            userRepository.addUser(user)
+                        }
                         isBusy = false
                         isLoggedIn = true
                     }
@@ -74,6 +82,7 @@ class LoginViewModel() : ViewModel() {
 
                     override fun onSuccess(result: Void?) {
                         user = User()
+                        saveTokenToSharedPreferences(context, "")
                         Log.d("Logout", "Success")
                         isBusy = false
                         isLoggedIn = false
@@ -81,6 +90,15 @@ class LoginViewModel() : ViewModel() {
                 },
             )
     }
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as ConcertApplication)
+                val userRepository = application.container.userRepository
+                UserStateViewModel(userRepository)
+            }
+        }
+    }
 }
 
-val UserState = compositionLocalOf<LoginViewModel> { error("User State context not found") }
+val UserState = compositionLocalOf<UserStateViewModel> { error("User State context not found") }

@@ -24,9 +24,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.androidconcertapp.model.Concert
+import com.example.androidconcertapp.ui.theme.ConcertAppTheme
 import kotlinx.coroutines.launch
 
 @Composable
@@ -34,18 +36,18 @@ fun ConcertList(
     goToDetail: (id: Int) -> Unit,
     viewModel: ConcertViewModel = viewModel(factory = ConcertViewModel.Factory),
 ) {
-    val concertListState by viewModel.uiState.collectAsState()
+    val concertState by viewModel.uiState.collectAsState()
 
     val concertApiState = viewModel.concertApiState
-    val uiListState by viewModel.uiListState.collectAsState()
+    val concertListState by viewModel.uiListState.collectAsState()
 
-    Box() {
+    Box {
         when (concertApiState) {
             is ConcertApiState.Loading -> Text("Loading...")
             is ConcertApiState.Error -> Text("Couldn't load...")
             is ConcertApiState.Success -> ConcertListComponent(
+                concertState = concertState,
                 concertListState = concertListState,
-                uiListState = uiListState,
                 goToDetail = goToDetail,
             )
         }
@@ -54,22 +56,22 @@ fun ConcertList(
 
 @Composable
 fun ConcertListComponent(
-    concertListState: ConcertListState,
+    concertState: ConcertState,
     goToDetail: (id: Int) -> Unit,
-    uiListState: List<Concert>,
+    concertListState: ConcertListState,
 ) {
     val lazyListState = rememberLazyListState()
     LazyColumn(state = lazyListState) {
-        items(uiListState) {
+        items(concertListState.concertList) {
             ConcertRow(concert = it, goToDetail = goToDetail)
         }
     }
     val coroutineScope = rememberCoroutineScope()
 
-    LaunchedEffect(concertListState.scrollActionIndex) {
-        if (concertListState.scrollActionIndex != 0) {
+    LaunchedEffect(concertState.scrollActionIndex) {
+        if (concertState.scrollActionIndex != 0) {
             coroutineScope.launch {
-                lazyListState.animateScrollToItem(concertListState.scrollToItemIndex)
+                lazyListState.animateScrollToItem(concertState.scrollToItemIndex)
             }
         }
     }
@@ -126,47 +128,34 @@ fun ConcertRow(
         }
     }
 }
-//
-// // @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-// @Preview()
-// @Composable
-// fun ConcertListComponentPreview() {
-//    ConcertAppTheme {
-//        ConcertListComponent(
-//            concertListState = ConcertListState(
-//                concertList = listOf(
-//                    Concert(
-//                        id = 1,
-//                        name = "Concert 1",
-//                        date = "2024-10-10",
-//                        time = "10:00:00",
-//                        price = 1000,
-//                        isConfirmed = true,
-//                        address = "Street 1 1",
-//                        city = "City 1",
-//                        organizer = "Organizer 1",
-//                        phoneNr = "123456789",
-//                        email = "test@test.com",
-//                        user = "User 1",
-//                    ),
-//                    Concert(
-//                        id = 2,
-//                        name = "Concert 2",
-//                        date = "2024-10-11",
-//                        time = "10:00:00",
-//                        price = 1500,
-//                        isConfirmed = false,
-//                        address = "Street 2 2",
-//                        city = "City 2",
-//                        organizer = "Organizer 2",
-//                        phoneNr = "987654321",
-//                        email = "test2@test.com",
-//                        user = "User 2",
-//                    ),
-//                ),
-//            ),
-//            {},
-//            uiListState,
-//        )
-//    }
-// }
+
+// @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview
+@Composable
+fun ConcertListComponentPreview() {
+    ConcertAppTheme {
+        ConcertListComponent(
+            concertState = ConcertState(),
+            goToDetail = {},
+            concertListState = ConcertListState(
+                listOf(
+                    Concert(
+                        1,
+                        "previewconcert",
+                        "date",
+                        "time",
+                        0,
+                        false,
+                        "address",
+                        "city",
+                        "organizer",
+                        "phoneNr",
+                        "email",
+                        "user",
+                        "comment"
+                    )
+                )
+            ),
+        )
+    }
+}

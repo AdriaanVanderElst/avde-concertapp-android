@@ -13,4 +13,7 @@ data class Concert(
     val phoneNr: String,
     val email: String,
     val user: String,
-)
+    val comment: String,
+) {
+
+}

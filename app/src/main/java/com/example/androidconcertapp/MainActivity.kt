@@ -10,12 +10,12 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import com.example.androidconcertapp.ui.AppSwitcher
-import com.example.androidconcertapp.ui.loginScreen.LoginViewModel
 import com.example.androidconcertapp.ui.loginScreen.UserState
+import com.example.androidconcertapp.ui.loginScreen.UserStateViewModel
 import com.example.androidconcertapp.ui.theme.ConcertAppTheme
 
 class MainActivity : ComponentActivity() {
-    private val userState by viewModels<LoginViewModel>()
+    private val userState by viewModels<UserStateViewModel>(factoryProducer = { UserStateViewModel.Factory })
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

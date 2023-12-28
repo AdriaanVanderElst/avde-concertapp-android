@@ -19,7 +19,7 @@ data class ApiConcert(
     val isConfirmed: Boolean,
     val place: Place,
     val organizer: Organizer,
-    val user: User,
+    val user: ConcertUser,
 )
 
 @Serializable
@@ -39,7 +39,7 @@ data class Organizer(
 )
 
 @Serializable
-data class User(
+data class ConcertUser(
     val id: Int,
     val name: String,
 )
@@ -50,7 +50,7 @@ fun List<ApiConcert>.asDomainObjects(): List<Concert> {
             it.id,
             it.name,
             it.date.substringBefore("T"),
-            it.date.substringAfter("T").substringBefore("."),
+            it.date.substringAfter("T").substring(0, 5),
             it.price,
             it.isConfirmed,
             it.place.street + " " + it.place.houseNr.toString(),
@@ -59,6 +59,7 @@ fun List<ApiConcert>.asDomainObjects(): List<Concert> {
             it.organizer.phoneNr,
             it.organizer.email,
             it.user.name,
+            "",
         )
     }
     return domainList

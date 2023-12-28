@@ -19,6 +19,7 @@ data class concertEntity(
     val phoneNr: String = "",
     val email: String = "",
     val user: String = "",
+    val comment: String = "",
 )
 
 fun Concert.asDbConcert() = concertEntity(
@@ -34,6 +35,7 @@ fun Concert.asDbConcert() = concertEntity(
     phoneNr = phoneNr,
     email = email,
     user = user,
+    comment = comment,
 )
 
 fun concertEntity.asDomainConcert() = Concert(
@@ -49,5 +51,6 @@ fun concertEntity.asDomainConcert() = Concert(
     phoneNr = phoneNr,
     email = email,
     user = user,
+    comment = comment,
 )
 fun List<concertEntity>.asDomainConcerts() = map { it.asDomainConcert() }

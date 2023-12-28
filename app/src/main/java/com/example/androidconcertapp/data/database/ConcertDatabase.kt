@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [concertEntity::class], version = 1)
+@Database(entities = [concertEntity::class], version = 2)
 abstract class ConcertDatabase : RoomDatabase() {
     abstract fun concertDao(): ConcertDao
 

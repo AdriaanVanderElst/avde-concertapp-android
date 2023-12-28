@@ -20,6 +20,7 @@ object ConcertSampler {
                 "0123456789",
                 "test@test.com",
                 "Test User 1",
+                "Test Comment 1"
             ),
         )
         list.add(
@@ -36,6 +37,7 @@ object ConcertSampler {
                 "9876543210",
                 "test2@test.com",
                 "Test User 2",
+                "Test Comment 2"
             ),
         )
         list

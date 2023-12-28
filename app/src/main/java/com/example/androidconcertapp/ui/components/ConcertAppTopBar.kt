@@ -1,6 +1,5 @@
 package com.example.androidconcertapp.ui.components
 
-import android.util.Log
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -28,7 +27,6 @@ fun ConcertAppTopBar(
             titleContentColor = MaterialTheme.colorScheme.primary,
         ),
         title = {
-            Log.d("Auth:", "Auth0 token: ${viewModel.user.accessToken}")
             Text(stringResource(id = currentScreenTitle))
         },
         navigationIcon = {
