@@ -15,7 +15,7 @@ import com.example.androidconcertapp.ui.listScreen.ConcertListViewModel
 @Composable
 fun NavComponent(
     navController: NavHostController,
-//    sharedViewModel: ConcertListViewModel,
+    sharedViewModel: ConcertListViewModel,
 //    loginViewModel: LoginViewModel,
     modifier: Modifier,
 //    goHomeAfterLogin: () -> Unit,
@@ -30,11 +30,13 @@ fun NavComponent(
 //            LoginScreen(viewModel = loginViewModel, goHomeAfterLogin = goHomeAfterLogin)
 //        }
         composable(route = ConcertScreen.List.name) {
-            ConcertList(viewModel = viewModel(factory = ConcertListViewModel.Factory), goToDetail = goToDetail)
+//            ConcertList(viewModel = viewModel(factory = ConcertListViewModel.Factory), goToDetail = goToDetail)
+            ConcertList(viewModel = sharedViewModel, goToDetail = goToDetail)
         }
         composable(route = "${ConcertScreen.Detail.name}/{id}") { backStackEntry ->
             val id = backStackEntry.arguments?.getString("id")?.toInt() ?: 0
-            ConcertDetails(viewModel = viewModel(factory = ConcertDetailViewModel.Factory(id)), id = id)
+//            ConcertDetails(viewModel = viewModel(factory = ConcertDetailViewModel.Factory(id)), id = id)
+            ConcertDetails(viewModel = sharedViewModel, id = id)
         }
     }
 }

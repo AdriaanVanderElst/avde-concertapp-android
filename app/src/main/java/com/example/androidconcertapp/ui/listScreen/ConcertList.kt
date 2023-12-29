@@ -37,9 +37,10 @@ fun ConcertList(
     viewModel: ConcertListViewModel = viewModel(factory = ConcertListViewModel.Factory),
 ) {
     val concertViewState by viewModel.uiState.collectAsState()
-
-    val concertApiState = viewModel.concertApiState
     val concertListState by viewModel.uiListState.collectAsState()
+    val concertApiState = viewModel.concertApiState
+
+
 
     Box {
         when (concertApiState) {
@@ -146,8 +147,10 @@ fun ConcertListComponentPreview() {
                         "time",
                         0,
                         false,
+                        1,
                         "address",
                         "city",
+                        1,
                         "organizer",
                         "phoneNr",
                         "email",

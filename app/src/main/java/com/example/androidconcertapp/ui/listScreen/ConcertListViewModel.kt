@@ -12,7 +12,6 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.androidconcertapp.ConcertApplication
 import com.example.androidconcertapp.data.ConcertRepository
-import com.example.androidconcertapp.model.Concert
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -42,14 +41,43 @@ class ConcertListViewModel(private val concertRepository: ConcertRepository) : V
             viewModelScope.launch { concertRepository.refresh() }
             uiListState = concertRepository.getItems().map { ConcertListState(it) }
                 .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5_000L),
-                initialValue = ConcertListState(),
-            )
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(5_000L),
+                    initialValue = ConcertListState(),
+                )
 
             concertApiState = ConcertApiState.Success
         } catch (e: Exception) {
             concertApiState = ConcertApiState.Error
+        }
+    }
+
+    fun setConcertDetail(cId: Int) {
+        _uiState.update { it ->
+            val concertDetail = uiListState.value.concertList.find { it.id == cId }
+            it.copy(
+                concertDetail = concertDetail,
+                newComment = concertDetail?.comment ?: ""
+            )
+        }
+    }
+
+    fun setNewComment(comment: String) {
+        _uiState.update { it.copy(newComment = comment) }
+    }
+
+    fun addComment() {
+        Log.d("Comment", uiState.value.newComment)
+        if (uiState.value.concertDetail != null) {
+            val concert = uiState.value.concertDetail!!.copy(comment = uiState.value.newComment)
+            viewModelScope.launch {
+                concertRepository.addComment(concert)
+
+            }
+        }
+        viewModelScope.launch {
+            concertRepository.updateConcertsToApi()
+            concertRepository.refresh()
         }
     }
 

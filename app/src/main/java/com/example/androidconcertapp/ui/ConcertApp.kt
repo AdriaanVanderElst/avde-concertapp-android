@@ -26,7 +26,7 @@ import com.example.androidconcertapp.ui.navigation.NavComponent
 @Composable
 fun ConcertApp(
     navController: NavHostController = rememberNavController(),
-//    sharedViewModel: ConcertListViewModel = viewModel(factory = ConcertListViewModel.Factory),
+    sharedViewModel: ConcertListViewModel = viewModel(factory = ConcertListViewModel.Factory),
 ) {
     val userStateVm = UserState.current
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -56,6 +56,7 @@ fun ConcertApp(
 //    }
 
     val goToDetail: (id: Int) -> Unit = { id ->
+        sharedViewModel.setConcertDetail(id)
         navController.navigate("${ConcertScreen.Detail.name}/$id")
     }
     val currentScreenTitle = ConcertScreen.valueOf(
@@ -84,7 +85,7 @@ fun ConcertApp(
 
             NavComponent(
                 navController = navController,
-//                sharedViewModel = sharedViewModel,
+                sharedViewModel = sharedViewModel,
 //            loginViewModel = loginViewModel,
                 modifier = Modifier.padding(innerPadding),
 //            goHomeAfterLogin = goHomeAfterLogin,

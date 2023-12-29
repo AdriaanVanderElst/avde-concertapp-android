@@ -8,7 +8,7 @@ import retrofit2.http.Path
 
 interface UserApiService {
     @POST("users")
-    suspend fun addUser(@Body user: ApiUser): ApiUser
+    suspend fun addUser(@Body user: ApiUser): Response<ApiUser>
     @GET("users/auth0/{auth0id}")
-    suspend fun getUserByAuthId(@Path("auth0id") id: String): ApiUser
+    suspend fun getUserByAuthId(@Path("auth0id") id: String): Response<ApiUser>
 }

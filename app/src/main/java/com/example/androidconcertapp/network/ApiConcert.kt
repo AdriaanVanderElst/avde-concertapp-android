@@ -1,5 +1,7 @@
 package com.example.androidconcertapp.network
 
+import android.util.Log
+import androidx.annotation.Nullable
 import com.example.androidconcertapp.model.Concert
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -16,6 +18,7 @@ data class ApiConcert(
     val name: String,
     val date: String,
     val price: Int,
+    val comment: String? = "",
     val isConfirmed: Boolean,
     val place: Place,
     val organizer: Organizer,
@@ -53,14 +56,38 @@ fun List<ApiConcert>.asDomainObjects(): List<Concert> {
             it.date.substringAfter("T").substring(0, 5),
             it.price,
             it.isConfirmed,
+            it.place.id,
             it.place.street + " " + it.place.houseNr.toString(),
             it.place.city,
+            it.organizer.id,
             it.organizer.name,
             it.organizer.phoneNr,
             it.organizer.email,
             it.user.name,
-            "",
+            it.comment ?: "",
         )
     }
     return domainList
 }
+
+
+@Serializable
+data class ApiPutConcert(
+    val name: String,
+    val date: String,
+    val price: Int,
+    val isConfirmed: Boolean,
+    val placeId: Int,
+    val organizerId: Int,
+    val comment: String
+)
+
+fun Concert.asApiPutConcert() = ApiPutConcert(
+    name = name,
+    date = date + "T" + time + ":00.000Z",
+    price = price,
+    isConfirmed = isConfirmed,
+    placeId = placeId,
+    organizerId = organizerId,
+    comment = comment,
+)

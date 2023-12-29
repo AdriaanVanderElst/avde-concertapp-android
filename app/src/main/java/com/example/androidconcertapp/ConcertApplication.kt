@@ -1,6 +1,7 @@
 package com.example.androidconcertapp
 
 import android.app.Application
+import android.util.Log
 import com.example.androidconcertapp.data.AppContainer
 import com.example.androidconcertapp.data.DefaultAppContainer
 

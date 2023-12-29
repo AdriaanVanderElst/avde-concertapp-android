@@ -20,38 +20,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.androidconcertapp.ui.listScreen.ConcertApiState
+import com.example.androidconcertapp.ui.listScreen.ConcertListViewModel
 
 @Composable
 fun ConcertDetails(
     id: Int,
-    viewModel: ConcertDetailViewModel,
+    viewModel: ConcertListViewModel,
 ) {
 
-    val concertState by viewModel.uiConcertState.collectAsState()
-    val concertDetailState by viewModel.uiState.collectAsState()
-
-    val concertApiState = viewModel.concertApiState
-
-    Box {
-        when (concertApiState) {
-            is ConcertApiState.Loading -> Text("Loading...")
-            is ConcertApiState.Error -> Text("Couldn't load...")
-            is ConcertApiState.Success -> ConcertDetailComponent(
-                concertState = concertState,
-                concertDetailState = concertDetailState,
-                viewModel = viewModel,
-            )
-
-        }
-    }
-}
-
-@Composable
-fun ConcertDetailComponent(
-    concertState: ConcertState,
-    concertDetailState: ConcertDetailState,
-    viewModel: ConcertDetailViewModel
-) {
+    val concertViewState by viewModel.uiState.collectAsState()
+//    val concertListState by viewModel.uiListState.collectAsState()
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -63,7 +41,7 @@ fun ConcertDetailComponent(
         ) {
             Row(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = concertState.concert.name,
+                    text = "${concertViewState.concertDetail?.name}",
                     style = MaterialTheme.typography.headlineMedium
                 )
             }
@@ -71,27 +49,96 @@ fun ConcertDetailComponent(
             Row(
                 modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = "Datum: ${concertState.concert.date}")
-                Text(text = "Tijd: ${concertState.concert.time}")
+                Text(text = "Datum: ${concertViewState.concertDetail?.date}")
+                Text(text = "Tijd: ${concertViewState.concertDetail?.time}")
             }
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(text = concertState.concert.address)
-                Text(text = concertState.concert.city)
+                Text(text = "${concertViewState.concertDetail?.address}")
+                Text(text = "${concertViewState.concertDetail?.city}")
             }
-            Text(text = concertState.concert.price.toString())
-            Text(text = concertState.concert.email)
+            Text(text = "${concertViewState.concertDetail?.price}")
+            Text(text = "${concertViewState.concertDetail?.email}")
 
             Row(modifier = Modifier.padding(16.dp)) {
 
             }
             Row(modifier = Modifier.padding(16.dp)) {
-                EditComment(comment = concertDetailState.comment,
+                EditComment(comment = concertViewState.newComment,
                     onCommentChange = { viewModel.setNewComment(it) },
-                    onAddComment = { viewModel.addComment(concertState.concert) })
+                    onAddComment = { viewModel.addComment() } )
             }
         }
     }
+
+
+
+//    val concertState by viewModel.uiConcertState.collectAsState()
+//    val concertDetailState by viewModel.uiState.collectAsState()
+
+//    val concertApiState = viewModel.concertApiState
+
+//    Box {
+//        when (concertApiState) {
+//            is ConcertApiState.Loading -> Text("Loading...")
+//            is ConcertApiState.Error -> Text("Couldn't load...")
+//            is ConcertApiState.Success -> ConcertDetailComponent(
+//                concertState = concertState,
+//                concertDetailState = concertDetailState,
+//                viewModel = viewModel,
+//            )
+//
+//        }
+//    }
+
+
 }
+
+//@Composable
+//fun ConcertDetailComponent(
+//    concertState: ConcertState,
+//    concertDetailState: ConcertDetailState,
+//    viewModel: ConcertDetailViewModel
+//) {
+//
+//    Box(modifier = Modifier.fillMaxSize()) {
+//        Column(
+//            modifier = Modifier
+//                .padding(32.dp)
+//                .fillMaxWidth(),
+//            verticalArrangement = Arrangement.SpaceBetween,
+//            horizontalAlignment = Alignment.CenterHorizontally,
+//        ) {
+//            Row(modifier = Modifier.padding(16.dp)) {
+//                Text(
+//                    text = concertState.concert.name,
+//                    style = MaterialTheme.typography.headlineMedium
+//                )
+//            }
+//
+//            Row(
+//                modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
+//            ) {
+//                Text(text = "Datum: ${concertState.concert.date}")
+//                Text(text = "Tijd: ${concertState.concert.time}")
+//            }
+//            Row(horizontalArrangement = Arrangement.SpaceBetween) {
+//                Text(text = concertState.concert.address)
+//                Text(text = concertState.concert.city)
+//            }
+//            Text(text = concertState.concert.price.toString())
+//            Text(text = concertState.concert.email)
+//
+//            Row(modifier = Modifier.padding(16.dp)) {
+//
+//            }
+//            Row(modifier = Modifier.padding(16.dp)) {
+//                EditComment(comment = concertDetailState.comment,
+//                    onCommentChange = { viewModel.setNewComment(it) },
+//                    onAddComment = { viewModel.addComment(concertState.concert) })
+//            }
+//        }
+//    }
+//}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

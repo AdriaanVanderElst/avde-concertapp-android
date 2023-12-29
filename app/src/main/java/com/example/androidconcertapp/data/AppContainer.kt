@@ -31,17 +31,17 @@ class DefaultAppContainer(private val appContext: Context) : AppContainer {
     private val concertApiService: ConcertApiService = retrofit.create(ConcertApiService::class.java)
 
     override val concertRepository: ConcertRepository by lazy {
-//        ApiConcertRepository(concertApiService)
         CachingConcertRepository(ConcertDatabase.getDatabase(appContext = appContext).concertDao(), concertApiService)
     }
     override val userRepository: UserRepository by lazy {
         UserRepositoryImpl(retrofit.create(UserApiService::class.java))
     }
 
-    // add bearer token of user to each request
     private fun okHttpClient(context: Context): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(AuthInterceptor(context))
+            .addInterceptor(HttpLoggingInterceptor())
+            .addInterceptor(NonSuccessfullResponseInterceptor())
             .build()
     }
 }
@@ -55,5 +55,24 @@ class AuthInterceptor(context: Context) : Interceptor {
         val requestBuilder = chain.request().newBuilder()
         requestBuilder.addHeader("Authorization", "Bearer $bearerToken").build()
         return chain.proceed(requestBuilder.build())
+    }
+}
+
+class HttpLoggingInterceptor : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val request = chain.request()
+        Log.d("RetrofitLog", "intercept: ${request.url}")
+        return chain.proceed(request)
+    }
+}
+
+class NonSuccessfullResponseInterceptor : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val response = chain.proceed(chain.request())
+        if (!response.isSuccessful) {
+            Log.e("nonSuccessfullResponseInterceptor", "intercept: ${response.code}")
+            Log.e("nonSuccessfullResponseInterceptor", "response body: ${response.body?.string()}")
+        }
+        return response
     }
 }
