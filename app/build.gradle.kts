@@ -70,6 +70,7 @@ dependencies {
     // Auth0
     implementation("com.auth0.android:auth0:2.10.2")
     implementation("com.auth0.android:jwtdecode:2.0.2")
+    implementation("androidx.compose.material3:material3-window-size-class:1.1.2")
 
     // Room
     val room_version = "2.5.0"

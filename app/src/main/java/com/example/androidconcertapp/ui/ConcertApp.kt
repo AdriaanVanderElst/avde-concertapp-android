@@ -3,8 +3,12 @@ package com.example.androidconcertapp.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -59,6 +63,12 @@ fun ConcertApp(
         sharedViewModel.setConcertDetail(id)
         navController.navigate("${ConcertScreen.Detail.name}/$id")
     }
+
+    val saveConcertsToApi: () -> Unit = {
+        sharedViewModel.saveConcertsToApi()
+        goHome()
+    }
+
     val currentScreenTitle = ConcertScreen.valueOf(
         backStackEntry?.destination?.route?.substringBefore("/") ?: ConcertScreen.List.name,
     ).title
@@ -80,7 +90,12 @@ fun ConcertApp(
                     currentScreenTitle = currentScreenTitle,
                 )
             },
-            bottomBar = { ConcertAppBottomBar(goHome) },
+            bottomBar = { ConcertAppBottomBar(goHome, saveConcertsToApi) },
+//            floatingActionButton = {
+//                FloatingActionButton(onClick = { saveConcertsToApi() }) {
+//                    Icon(Icons.Default.Save, contentDescription = "Save concerts to database")
+//                }
+//            }
         ) { innerPadding ->
 
             NavComponent(

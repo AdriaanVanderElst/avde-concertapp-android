@@ -24,6 +24,12 @@ import com.example.androidconcertapp.model.User
 import com.example.androidconcertapp.utils.NetworkResponse
 import kotlinx.coroutines.launch
 
+
+/**
+ * The [ViewModel] of the UserState.
+ *
+ * @property userRepository the [UserRepository] that is used to get the User.
+ */
 class UserStateViewModel(private val userRepository: UserRepository) : ViewModel() {
 
     val loginState: MutableState<NetworkResponse<String>> =

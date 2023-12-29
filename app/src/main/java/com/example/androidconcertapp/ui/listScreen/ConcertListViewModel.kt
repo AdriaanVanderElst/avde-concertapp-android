@@ -72,9 +72,11 @@ class ConcertListViewModel(private val concertRepository: ConcertRepository) : V
             val concert = uiState.value.concertDetail!!.copy(comment = uiState.value.newComment)
             viewModelScope.launch {
                 concertRepository.addComment(concert)
-
             }
         }
+    }
+
+    fun saveConcertsToApi() {
         viewModelScope.launch {
             concertRepository.updateConcertsToApi()
             concertRepository.refresh()
