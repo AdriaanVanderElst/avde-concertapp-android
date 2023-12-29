@@ -56,9 +56,7 @@ fun ConcertApp(
 //    }
 
     val goToDetail: (id: Int) -> Unit = { id ->
-        navController.navigate("${ConcertScreen.Detail.name}/$id") {
-            launchSingleTop = true
-        }
+        navController.navigate("${ConcertScreen.Detail.name}/$id")
     }
     val currentScreenTitle = ConcertScreen.valueOf(
         backStackEntry?.destination?.route?.substringBefore("/") ?: ConcertScreen.List.name,
