@@ -17,26 +17,57 @@ import okio.IOException
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
 
+// write documentation
+
+/**
+ * A repository for [Concert]s. It can get [Concert]s from the backend and store them in a local database.
+ * It can also get [Concert]s from the local database and update them to the backend.
+ */
 interface ConcertRepository {
 
-    // Retrofit
-//    suspend fun getConcertsFromApi(): List<Concert>
-
+    /**
+     * Gets [Concert]s from the backend and compares them in the local database.
+     * If there are any differences, the differing [Concert]s in the local database will be updated to the backend.
+     */
     suspend fun updateConcertsToApi()
 
-    // RoomDB
+    /**
+     * Inserts a [Concert] in the local database.
+     * @param concert the [Concert] to be inserted.
+     */
     suspend fun insertItem(concert: Concert)
 
+    /**
+     * Gets all [Concert]s from the local database.
+     * @return a [Flow] of a [List] of [Concert]s.
+     */
     fun getItems(): Flow<List<Concert>>
 
+    /**
+     * Gets a [Concert] from the local database by its id.
+     * @param id the id of the [Concert] to be retrieved.
+     * @return a [Flow] of a [Concert].
+     */
     fun getItemById(id: Int): Flow<Concert>
 
+    /**
+     * Adds a comment to a [Concert] in the local database.
+     * @param concert the [Concert] which contains the new comment.
+     */
     suspend fun addComment(concert: Concert)
 
+    /**
+     * Refreshes the [Concert]s in the local database.
+     */
     suspend fun refresh()
 
 }
 
+/**
+ * A concrete implementation of [ConcertRepository].
+ * @property concertDao the [ConcertDao] which is used to access the local database.
+ * @property concertApiService the [ConcertApiService] which is used to access the backend.
+ */
 class CachingConcertRepository(
     private val concertDao: ConcertDao,
     private val concertApiService: ConcertApiService,

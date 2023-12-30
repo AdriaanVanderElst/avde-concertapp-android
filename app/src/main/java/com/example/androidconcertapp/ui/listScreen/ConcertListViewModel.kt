@@ -21,6 +21,11 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+/**
+ * The [ViewModel] of the ConcertList and ConcertDetails.
+ *
+ * @property concertRepository the [ConcertRepository] that is used to get the Concerts.
+ */
 class ConcertListViewModel(private val concertRepository: ConcertRepository) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ConcertViewState())
@@ -31,8 +36,10 @@ class ConcertListViewModel(private val concertRepository: ConcertRepository) : V
     var concertApiState: ConcertApiState by mutableStateOf(ConcertApiState.Loading)
         private set
 
+    /**
+     * Initializes the [ConcertListViewModel] by getting the Concerts from the repository.
+     */
     init {
-
         getRepoConcerts()
     }
 
@@ -52,6 +59,10 @@ class ConcertListViewModel(private val concertRepository: ConcertRepository) : V
         }
     }
 
+    /**
+     * Sets the concert that is selected.
+     * @param cId The id of the concert  that is selected.
+     */
     fun setConcertDetail(cId: Int) {
         _uiState.update { it ->
             val concertDetail = uiListState.value.concertList.find { it.id == cId }
@@ -62,10 +73,17 @@ class ConcertListViewModel(private val concertRepository: ConcertRepository) : V
         }
     }
 
+    /**
+     * Sets the new comment.
+     * @param comment The new comment.
+     */
     fun setNewComment(comment: String) {
         _uiState.update { it.copy(newComment = comment) }
     }
 
+    /**
+     * Adds the comment to the selected concert.
+     */
     fun addComment() {
         Log.d("Comment", uiState.value.newComment)
         if (uiState.value.concertDetail != null) {
@@ -76,6 +94,10 @@ class ConcertListViewModel(private val concertRepository: ConcertRepository) : V
         }
     }
 
+    /**
+     * Saves the concerts to the API when differences are spotted.
+     * refreshes the concerts from the API.
+     */
     fun saveConcertsToApi() {
         viewModelScope.launch {
             concertRepository.updateConcertsToApi()
@@ -83,6 +105,9 @@ class ConcertListViewModel(private val concertRepository: ConcertRepository) : V
         }
     }
 
+    /**
+     * The [ViewModelProvider.Factory] of the [ConcertListViewModel].
+     */
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {

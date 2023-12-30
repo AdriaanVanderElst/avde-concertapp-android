@@ -11,8 +11,13 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import com.example.androidconcertapp.ui.loginScreen.UserState
 
+/** The ConcertAppBottomBar component.
+ *
+ * @param goHome The function to navigate to the home screen.
+ * @param saveConcertsToApi The function to save the concerts to the Api.
+ * @param onLogout The function to logout.
+ */
 @Composable
 fun ConcertAppBottomBar(goHome: () -> Unit, saveConcertsToApi: () -> Unit, onLogout: (Context) -> Unit) {
     val context = LocalContext.current
@@ -21,13 +26,13 @@ fun ConcertAppBottomBar(goHome: () -> Unit, saveConcertsToApi: () -> Unit, onLog
         contentColor = MaterialTheme.colorScheme.primary,
         actions = {
             IconButton(onClick = { onLogout(context) }) {
-                Icon(Icons.Filled.ExitToApp, contentDescription = "Log Out")
+                Icon(Icons.Filled.ExitToApp, contentDescription = "navigate to login page")
             }
             IconButton(onClick = goHome) {
-                Icon(Icons.Filled.Home, contentDescription = "Go home")
+                Icon(Icons.Filled.Home, contentDescription = "navigate to home page")
             }
             IconButton(onClick = saveConcertsToApi) {
-                Icon(Icons.Filled.Save, contentDescription = "Save concerts to Api")
+                Icon(Icons.Filled.Save, contentDescription = "save concerts to Api")
             }
         },
     )

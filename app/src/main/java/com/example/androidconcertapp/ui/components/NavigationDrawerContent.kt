@@ -16,12 +16,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
-import androidx.core.app.NotificationCompat.BadgeIconType
-import androidx.navigation.NavDestination
-import com.example.androidconcertapp.R
 
+/** The ConcertNavigationRail component.
+ *
+ * @param goHome The function to navigate to the home screen.
+ * @param saveConcertsToApi The function to save the concerts to the Api.
+ * @param onLogout The function to logout.
+ */
 @Composable
 fun NavigationDrawerContent(
     goHome: () -> Unit,
@@ -50,6 +52,12 @@ fun NavigationDrawerContent(
     }
 }
 
+/** The CustomNavDrawerItem component used in the NavigationDrawerContent.
+ *
+ * @param name The name of the item.
+ * @param icontype The icon of the item.
+ * @param onClick The function to execute when the item is clicked.
+ */
 @Composable
 fun CustomNavDrawerItem(name: String, icontype: ImageVector, onClick: () -> Unit) {
     NavigationDrawerItem(

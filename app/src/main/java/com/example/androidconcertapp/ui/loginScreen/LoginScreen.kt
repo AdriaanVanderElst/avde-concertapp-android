@@ -4,8 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -24,11 +22,16 @@ import androidx.compose.ui.unit.dp
 import com.example.androidconcertapp.R
 import com.example.androidconcertapp.ui.navigation.NavigationType
 
+/**
+ * The login screen.
+ *
+ * @param navigationType The type of navigation to use.
+ */
 @Composable
 fun LoginScreen(
     navigationType: NavigationType,
 ) {
-    val viewModel = UserState.current
+    val viewModel = LocalUserState.current
     val context = LocalContext.current
 
     Column(

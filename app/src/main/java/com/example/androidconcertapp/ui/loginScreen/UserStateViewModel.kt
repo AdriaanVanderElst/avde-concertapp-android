@@ -39,6 +39,12 @@ class UserStateViewModel(private val userRepository: UserRepository) : ViewModel
     var isBusy by mutableStateOf(false)
 
     var user by mutableStateOf(User())
+
+    /**
+     * Logs the user in and tries to add the user to the repository.
+     * If the user exists in the Api already, an error occurs, and the user is not added to the Api.
+     * @param context The context of the app.
+     */
     fun onLogin(context: Context) {
         isBusy = true
         val auth = Auth0(context)
@@ -73,6 +79,10 @@ class UserStateViewModel(private val userRepository: UserRepository) : ViewModel
         sharedPreferences.edit().putString("bearerToken", token).apply()
     }
 
+    /**
+     * Logs the user out.
+     * @param context The context of the app.
+     */
     fun onLogout(context: Context) {
         isBusy = true
         val auth0 = Auth0(context)
@@ -96,6 +106,7 @@ class UserStateViewModel(private val userRepository: UserRepository) : ViewModel
                 },
             )
     }
+
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
@@ -107,4 +118,7 @@ class UserStateViewModel(private val userRepository: UserRepository) : ViewModel
     }
 }
 
-val UserState = compositionLocalOf<UserStateViewModel> { error("User State context not found") }
+/**
+ * The providableCompositionLocal of the [UserStateViewModel].
+ */
+val LocalUserState = compositionLocalOf<UserStateViewModel> { error("User State context not found") }

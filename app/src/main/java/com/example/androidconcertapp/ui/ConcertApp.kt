@@ -30,22 +30,32 @@ import com.example.androidconcertapp.ui.components.ConcertAppTopBar
 import com.example.androidconcertapp.ui.components.ConcertNavigationRail
 import com.example.androidconcertapp.ui.components.NavigationDrawerContent
 import com.example.androidconcertapp.ui.listScreen.ConcertListViewModel
-import com.example.androidconcertapp.ui.loginScreen.UserState
+import com.example.androidconcertapp.ui.loginScreen.LocalUserState
 import com.example.androidconcertapp.ui.navigation.ConcertScreen
 import com.example.androidconcertapp.ui.navigation.NavComponent
 import com.example.androidconcertapp.ui.navigation.NavigationType
 
+/**
+ * The main app component.
+ *
+ * @param navigationType The type of navigation to use.
+ * @param navController The [NavHostController] used for navigation.
+ * @param sharedViewModel The [ConcertListViewModel] used by the List and Detail screens.
+ */
 @Composable
 fun ConcertApp(
     navigationType: NavigationType,
     navController: NavHostController = rememberNavController(),
     sharedViewModel: ConcertListViewModel = viewModel(factory = ConcertListViewModel.Factory),
 ) {
-    val userStateVm = UserState.current
+    val userStateVm = LocalUserState.current
     val backStackEntry by navController.currentBackStackEntryAsState()
     val canNavigateBack = navController.previousBackStackEntry != null
     val navigateUp: () -> Unit = { navController.navigateUp() }
 
+    /**
+     * Navigates to the home screen.
+     */
     val goHome: () -> Unit = {
         navController.popBackStack(
             ConcertScreen.List.name,
@@ -53,16 +63,27 @@ fun ConcertApp(
         )
     }
 
+    /**
+     * Navigates to the detail screen.
+     *
+     * @param id The id of the concert to show.
+     */
     val goToDetail: (id: Int) -> Unit = { id ->
         sharedViewModel.setConcertDetail(id)
         navController.navigate("${ConcertScreen.Detail.name}/$id")
     }
 
+    /**
+     * Saves the concerts to the API.
+     */
     val saveConcertsToApi: () -> Unit = {
         sharedViewModel.saveConcertsToApi()
         goHome()
     }
 
+    /**
+     * Logs the user out.
+     */
     val onLogout: (Context) -> Unit = {
         userStateVm.onLogout(it)
     }

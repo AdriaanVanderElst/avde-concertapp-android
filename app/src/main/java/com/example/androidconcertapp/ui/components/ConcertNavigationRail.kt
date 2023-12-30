@@ -12,6 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 
+/** The ConcertNavigationRail component.
+ *
+ * @param goHome The function to navigate to the home screen.
+ * @param saveConcertsToApi The function to save the concerts to the Api.
+ * @param onLogout The function to logout.
+ */
 @Composable
 fun ConcertNavigationRail(
     goHome: () -> Unit,

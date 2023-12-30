@@ -4,7 +4,7 @@ import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import com.example.androidconcertapp.ui.loginScreen.LoginScreen
-import com.example.androidconcertapp.ui.loginScreen.UserState
+import com.example.androidconcertapp.ui.loginScreen.LocalUserState
 import com.example.androidconcertapp.ui.navigation.NavigationType
 
 
@@ -28,7 +28,7 @@ fun AppSwitcher(windowSize: WindowSizeClass) {
 }
 @Composable
 fun BuildScreen(navigationType: NavigationType) {
-    val vm = UserState.current
+    val vm = LocalUserState.current
     if (vm.isLoggedIn) {
         ConcertApp(navigationType = navigationType)
     } else {

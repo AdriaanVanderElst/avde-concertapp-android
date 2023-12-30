@@ -18,6 +18,18 @@
           <timeTargetWasSelectedWithDropDown value="2023-12-30T11:42:23.716687100Z" />
         </State>
       </entry>
+      <entry key="daoGetAllConcerts_returnsConcertsFromRoom()">
+        <State />
+      </entry>
+      <entry key="daoGetConcertById_returnsConcertFromRoom()">
+        <State />
+      </entry>
+      <entry key="daoInsert_insertConcertInRoom()">
+        <State />
+      </entry>
+      <entry key="daoUpdateConcert_updatesConcertInRoom()">
+        <State />
+      </entry>
     </value>
   </component>
 </project>

@@ -1,17 +1,17 @@
 package com.example.androidconcertapp.network
 
-import android.util.Log
-import androidx.annotation.Nullable
 import com.example.androidconcertapp.model.Concert
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/** Data Transfer Object (DTO) for the Api response of the Concerts */
 @Serializable
 data class ApiConcertResponse(
     @SerialName("items") val concerts: List<ApiConcert>,
     @SerialName("count") val count: Int,
 )
 
+/** Data Transfer Object (DTO) for a Concert */
 @Serializable
 data class ApiConcert(
     val id: Int,
@@ -25,6 +25,7 @@ data class ApiConcert(
     val user: ConcertUser,
 )
 
+/** Data Transfer Object (DTO) for a Place */
 @Serializable
 data class Place(
     val id: Int,
@@ -33,6 +34,7 @@ data class Place(
     val city: String,
 )
 
+/** Data Transfer Object (DTO) for an Organizer */
 @Serializable
 data class Organizer(
     val id: Int,
@@ -41,12 +43,14 @@ data class Organizer(
     val email: String,
 )
 
+/** Data Transfer Object (DTO) for a ConcertUser */
 @Serializable
 data class ConcertUser(
     val id: Int,
     val name: String,
 )
 
+/** Extension function for an ApiConcert List to convert is to a Domain Concert List */
 fun List<ApiConcert>.asDomainObjects(): List<Concert> {
     var domainList = this.map {
         Concert(
@@ -70,7 +74,7 @@ fun List<ApiConcert>.asDomainObjects(): List<Concert> {
     return domainList
 }
 
-
+/** Data Transfer Object (DTO) for a Concert to be used in a PUT request */
 @Serializable
 data class ApiPutConcert(
     val name: String,
@@ -82,6 +86,7 @@ data class ApiPutConcert(
     val comment: String
 )
 
+/** Extension function for a Concert to convert it to an ApiPutConcert */
 fun Concert.asApiPutConcert() = ApiPutConcert(
     name = name,
     date = date + "T" + time + ":00.000Z",

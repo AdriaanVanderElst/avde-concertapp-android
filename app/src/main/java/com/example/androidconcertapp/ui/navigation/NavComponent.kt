@@ -27,7 +27,7 @@ fun NavComponent(
         }
         composable(route = "${ConcertScreen.Detail.name}/{id}") { backStackEntry ->
             val id = backStackEntry.arguments?.getString("id")?.toInt() ?: 0
-            ConcertDetails(viewModel = sharedViewModel, id = id)
+            ConcertDetails(viewModel = sharedViewModel)
         }
     }
 }

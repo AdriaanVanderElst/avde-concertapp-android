@@ -2,8 +2,14 @@ package com.example.androidconcertapp.data
 
 import com.example.androidconcertapp.model.Concert
 
+/**
+ * ConcertSampler is a singleton object that provides a list of Concerts for testing purposes.
+ */
 object ConcertSampler {
 
+    /**
+     * getAll returns a list of Concerts.
+     */
     val getAll: () -> MutableList<Concert> = {
         val list = mutableListOf<Concert>()
         list.add(

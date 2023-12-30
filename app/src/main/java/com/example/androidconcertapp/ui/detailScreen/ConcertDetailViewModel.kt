@@ -23,6 +23,15 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 // THIS CLASS IS UNUSED
+
+/**
+ * This is a deprecated viewmodel of the app's detail screen.
+ * The detail screen uses the ConcertListViewModel as its viewmodel.
+ *
+ * @Deprecated Use ConcertListViewModel instead
+ */
+
+@Deprecated("Use ConcertListViewModel instead")
 class ConcertDetailViewModel(
     private val concertRepository: ConcertRepository,
     cId: Int

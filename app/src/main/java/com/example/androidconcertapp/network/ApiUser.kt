@@ -2,8 +2,7 @@ package com.example.androidconcertapp.network
 
 import kotlinx.serialization.Serializable
 
-// how to use ignoreUnknownKeys = true for this class, since the api returns more fields than this class has?
-
+/** Data Transfer Object representing a user from the API */
 @Serializable
 data class ApiUser(
     val id: Int? = null,

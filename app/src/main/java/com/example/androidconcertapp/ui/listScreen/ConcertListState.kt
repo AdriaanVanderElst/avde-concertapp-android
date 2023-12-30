@@ -2,8 +2,8 @@ package com.example.androidconcertapp.ui.listScreen
 
 import com.example.androidconcertapp.model.Concert
 import com.example.androidconcertapp.model.User
-import org.w3c.dom.Comment
 
+/** The state of the app's list screen. */
 data class ConcertViewState(
     val scrollActionIndex: Int = 0,
     val scrollToItemIndex: Int = 0,
@@ -12,8 +12,10 @@ data class ConcertViewState(
     val concertDetail: Concert? = null,
 )
 
+/** The state containing the list of concerts from the repository. */
 data class ConcertListState(val concertList: List<Concert> = listOf())
 
+/** The state of the API call. */
 sealed interface ConcertApiState {
     object Success : ConcertApiState
     object Error : ConcertApiState

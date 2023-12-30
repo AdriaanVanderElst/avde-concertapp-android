@@ -15,8 +15,15 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import com.example.androidconcertapp.ui.loginScreen.UserState
+import com.example.androidconcertapp.ui.loginScreen.LocalUserState
 
+/**
+ * The ConcertAppTopBar component.
+ *
+ * @param canNavigateBack The boolean to check if the user can navigate back.
+ * @param navigateUp The function to navigate back.
+ * @param currentScreenTitle The title of the current screen.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConcertAppTopBar(
@@ -24,7 +31,7 @@ fun ConcertAppTopBar(
     navigateUp: () -> Unit = {},
     currentScreenTitle: Int,
 ) {
-    val viewModel = UserState.current
+    val viewModel = LocalUserState.current
     TopAppBar(
         colors = TopAppBarDefaults.smallTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,

@@ -12,7 +12,7 @@ sealed class NetworkResponse<T>(
 }
 
 fun NetworkResponse<*>.mapToUnit() = when (this) {
-    is NetworkResponse.Failure -> NetworkResponse.Failure<Unit>(message = message.toString())
+    is NetworkResponse.Failure -> NetworkResponse.Failure(message = message.toString())
     is NetworkResponse.Loading -> NetworkResponse.Loading()
     is NetworkResponse.Success -> NetworkResponse.Success(data = Unit, message = message.toString())
 }

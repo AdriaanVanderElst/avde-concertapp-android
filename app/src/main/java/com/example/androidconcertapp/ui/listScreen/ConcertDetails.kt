@@ -5,33 +5,33 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.androidconcertapp.model.Concert
+import com.example.androidconcertapp.ui.components.DetailItem
+import com.example.androidconcertapp.ui.components.EditComment
+import com.example.androidconcertapp.ui.components.OrganizerItem
 import com.example.androidconcertapp.ui.theme.ConcertAppTheme
 
+/**
+ * The ConcertDetails screen.
+ *
+ * @param viewModel The [ConcertListViewModel] used by the List and Detail screens.
+ */
 @Composable
 fun ConcertDetails(
-    id: Int,
     viewModel: ConcertListViewModel,
 ) {
 
@@ -45,6 +45,13 @@ fun ConcertDetails(
 
 }
 
+/** The ConcertDetails component.
+ *
+ * @param concertViewState The [ConcertViewState] used by the List and Detail screens.
+ * @param onCommentChange The function to change the comment in the textfield.
+ * @param onAddComment The function to add the comment.
+ * @param modifier The modifier.
+ */
 @Composable
 fun ConcertDetailsComponent (
     concertViewState: ConcertViewState,
@@ -106,40 +113,6 @@ fun ConcertDetailsComponent (
     }
 }
 
-@Composable
-fun OrganizerItem(modifier: Modifier = Modifier, v1: String, v2: String, v3: String) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        ) {
-        Text(text = v1)
-        Column(
-            modifier = Modifier.padding(start = 30.dp)
-        ) {
-            Text(text = v2)
-            Text(text = v3)
-        }
-    }
-}
-
-@Composable
-fun DetailItem(
-    modifier: Modifier = Modifier,
-    v1: String,
-    v2: String,
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-
-    ) {
-        Text(modifier =modifier.padding(end = 20.dp) ,  text = v1)
-        Text(text = v2)
-    }
-}
-
 @Preview
 @Composable
 fun ConcertDetailsComponentPreview() {
@@ -170,51 +143,5 @@ fun ConcertDetailsComponentPreview() {
             modifier = Modifier.background(MaterialTheme.colorScheme.tertiaryContainer),
         )
 
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
-@Composable
-fun EditComment(comment: String, onCommentChange: (String) -> Unit, onAddComment: () -> Unit) {
-    Column(
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.background),
-        verticalArrangement = Arrangement.SpaceBetween,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        OutlinedTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .defaultMinSize(minHeight = 150.dp),
-            value = comment,
-            onValueChange = {
-                onCommentChange(it)
-            },
-            label = { Text("comment") },
-
-        )
-
-            TextButton(
-                onClick = {
-                    onAddComment()
-                },
-            ) {
-                Text("sla op")
-            }
-        Spacer(modifier = Modifier.height(16.dp))
-    }
-}
-
-@Preview
-@Composable
-fun EditCommentPreview() {
-    ConcertAppTheme {
-        EditComment(
-            comment = "comment",
-            onCommentChange = {},
-            onAddComment = {},
-        )
     }
 }

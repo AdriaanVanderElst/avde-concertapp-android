@@ -4,6 +4,18 @@ import android.util.Log
 import com.auth0.android.jwt.JWT
 
 private const val TAG = "User"
+
+/**
+ * User represents a user in the app.
+ * @property idToken the id token of the user.
+ * @property accessToken the access token of the user.
+ * @property id the unique id of the user.
+ * @property name the name of the user.
+ * @property email the email of the user.
+ * @property emailVerified the email verification status of the user.
+ * @property picture the picture of the user.
+ * @property updatedAt the last time the user was updated.
+ */
 data class User(val idToken: String? = null, val accessToken: String? = null) {
     var id: String = ""
     var name: String = ""
@@ -12,6 +24,9 @@ data class User(val idToken: String? = null, val accessToken: String? = null) {
     private var picture: String = ""
     private var updatedAt: String = ""
 
+    /**
+     * Initializes the user properties.
+     */
     init {
         if (idToken != null) {
             try {

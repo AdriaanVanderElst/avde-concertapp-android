@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.androidconcertapp.model.Concert
 
+/** ConcertEntity is a data class that represents a Concert in the database. */
 @Entity(tableName = "concerts")
 data class ConcertEntity(
     @PrimaryKey
@@ -24,6 +25,7 @@ data class ConcertEntity(
     val comment: String = "",
 )
 
+/** Extension function for a Concert to convert it to a ConcertEntity */
 fun Concert.asDbConcert() = ConcertEntity(
     id = id,
     name = name,
@@ -42,6 +44,7 @@ fun Concert.asDbConcert() = ConcertEntity(
     comment = comment,
 )
 
+/** Extension function for a ConcertEntity to convert it to a Concert */
 fun ConcertEntity.asDomainConcert() = Concert(
     id = id,
     name = name,
@@ -59,4 +62,6 @@ fun ConcertEntity.asDomainConcert() = Concert(
     user = user,
     comment = comment,
 )
+
+/** Extension function for a List of ConcertEntities to convert it to a List of Concerts */
 fun List<ConcertEntity>.asDomainConcerts() = map { it.asDomainConcert() }

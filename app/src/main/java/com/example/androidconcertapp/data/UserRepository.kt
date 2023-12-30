@@ -7,12 +7,25 @@ import com.example.androidconcertapp.network.ApiUser
 import com.example.androidconcertapp.network.UserApiService
 import java.net.SocketTimeoutException
 
-
+/**
+ * A repository for [User]s.
+ */
 interface UserRepository {
+
+    /**
+     * Adds a [User] to the API.
+     *
+     * @param user the [User] to add.
+     */
     suspend fun addUser(user: User)
 
 }
 
+/**
+ * A repository for [User]s. This repository saves the [User]s to the API.
+ *
+ * @property userApiService the [UserApiService] that is used to send the [User]s to the API.
+ */
 class UserRepositoryImpl(private val userApiService: UserApiService) : UserRepository {
 
     override suspend fun addUser(user: User) {

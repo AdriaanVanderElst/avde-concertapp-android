@@ -13,11 +13,22 @@ import okhttp3.OkHttpClient
 import okhttp3.Response
 import retrofit2.Retrofit
 
+/**
+ * The container of the application.
+ *
+ * @property concertRepository the [ConcertRepository] that is used to save Concerts.
+ * @property userRepository the [UserRepository] that is used to save Users.
+ */
 interface AppContainer {
     val concertRepository: ConcertRepository
     val userRepository: UserRepository
 }
 
+/**
+ * The default implementation of the [AppContainer].
+ *
+ * @property appContext the application context.
+ */
 class DefaultAppContainer(private val appContext: Context) : AppContainer {
     private val baseUrl = "http://10.0.2.2:9000/api/"
     private val retrofit = Retrofit.Builder()
