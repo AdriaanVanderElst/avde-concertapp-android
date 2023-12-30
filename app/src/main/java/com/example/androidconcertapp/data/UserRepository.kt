@@ -5,7 +5,6 @@ import android.util.Log
 import com.example.androidconcertapp.model.User
 import com.example.androidconcertapp.network.ApiUser
 import com.example.androidconcertapp.network.UserApiService
-import com.example.androidconcertapp.utils.CustomResult
 
 
 interface UserRepository {

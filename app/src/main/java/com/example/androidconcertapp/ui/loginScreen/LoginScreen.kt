@@ -19,9 +19,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.androidconcertapp.R
+import com.example.androidconcertapp.ui.navigation.NavigationType
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    navigationType: NavigationType,
+) {
     val viewModel = UserState.current
     val context = LocalContext.current
 

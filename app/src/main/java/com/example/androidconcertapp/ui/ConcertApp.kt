@@ -25,10 +25,12 @@ import com.example.androidconcertapp.ui.listScreen.ConcertListViewModel
 import com.example.androidconcertapp.ui.loginScreen.UserState
 import com.example.androidconcertapp.ui.navigation.ConcertScreen
 import com.example.androidconcertapp.ui.navigation.NavComponent
+import com.example.androidconcertapp.ui.navigation.NavigationType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConcertApp(
+    navigationType: NavigationType,
     navController: NavHostController = rememberNavController(),
     sharedViewModel: ConcertListViewModel = viewModel(factory = ConcertListViewModel.Factory),
 ) {

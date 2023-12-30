@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import com.example.androidconcertapp.ui.AppSwitcher
 import com.example.androidconcertapp.ui.loginScreen.UserState
 import com.example.androidconcertapp.ui.loginScreen.UserStateViewModel
+import com.example.androidconcertapp.ui.navigation.NavigationType
 import com.example.androidconcertapp.ui.theme.ConcertAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -29,7 +30,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val windowSize = calculateWindowSizeClass(this)
                     CompositionLocalProvider(UserState provides userState) {
-                        AppSwitcher()
+                        AppSwitcher(windowSize)
                     }
                 }
             }
