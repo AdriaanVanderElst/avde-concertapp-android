@@ -3,13 +3,16 @@ package com.example.androidconcertapp.ui.loginScreen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -32,14 +35,24 @@ fun LoginScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(all = 32.dp),
-        verticalArrangement = Arrangement.SpaceEvenly,
+        verticalArrangement = Arrangement.spacedBy(space = 32.dp),
     ) {
-        Spacer(modifier = Modifier.height(32.dp))
-        Image(
+        Row(
             modifier = Modifier.fillMaxWidth(),
-            painter = painterResource(id = R.drawable.kicks_logo_antraciet),
-            contentDescription = stringResource(id = R.string.kicks_logo_content_description),
-        )
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+        ) {
+            Image(
+                modifier = Modifier
+                    .height(150.dp),
+                painter = painterResource(id = R.drawable.kicks_logo_antraciet),
+                contentDescription = stringResource(id = R.string.kicks_logo_content_description),
+            )
+            Text(
+                text = stringResource(id = R.string.app_name),
+                style = MaterialTheme.typography.headlineLarge,
+            )
+        }
 
         Column(
             modifier = Modifier.fillMaxSize(),

@@ -11,14 +11,11 @@ import com.example.androidconcertapp.network.asApiPutConcert
 import com.example.androidconcertapp.network.asDomainObjects
 import com.example.androidconcertapp.network.getConcertsAsFlow
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.single
-import kotlinx.coroutines.flow.toList
 import okio.IOException
 import retrofit2.HttpException
+import java.net.SocketTimeoutException
 
 interface ConcertRepository {
 
@@ -50,15 +47,30 @@ class CachingConcertRepository(
 //    }
 
     override suspend fun updateConcertsToApi() {
-        val apiConcerts: List<Concert> = concertApiService.getConcerts().concerts.asDomainObjects()
+        var apiConcerts: List<Concert> = emptyList()
+        try {
+            apiConcerts = concertApiService.getConcerts().concerts.asDomainObjects()
+        } catch (e: SocketTimeoutException) {
+            Log.e("ConcertRepository", "Backend connection failed: ${e.message}")
+        } catch (e: Exception) {
+            Log.e("ConcertRepository", "updateConcertsToApi: ${e.message}")
+        }
 
         Log.d("ConcertRepository", "Comparing Concerts")
 
         for (concert in apiConcerts) {
-            val corresponding: Concert = concertDao.getItemById(concert.id).map { it.asDomainConcert() }.first()
-            if (corresponding != null && concert.comment != corresponding.comment) {
-                Log.d("ConcertRepository", corresponding.comment + " != " + concert.comment)
-                concertApiService.updateConcert(corresponding.id, corresponding.asApiPutConcert())
+            val corresponding: Concert =
+                concertDao.getItemById(concert.id).map { it.asDomainConcert() }.first()
+            if (apiConcerts.isNotEmpty() && concert.comment != corresponding.comment) {
+                try {
+                    concertApiService.updateConcert(
+                        corresponding.id, corresponding.asApiPutConcert()
+                    )
+                } catch (e: SocketTimeoutException) {
+                    Log.e("ConcertRepository", "Backend connection failed: ${e.message}")
+                } catch (e: Exception) {
+                    Log.e("ConcertRepository", "updateConcertsToApi: ${e.message}")
+                }
             }
         }
     }
@@ -85,21 +97,21 @@ class CachingConcertRepository(
 
     override suspend fun refresh() {
         try {
-
-                Log.e("ConcertRepository", "Refresh will be called")
-                concertApiService.getConcertsAsFlow().collect { response ->
-                    response.let {
-                        for (concert in it.concerts.asDomainObjects()) {
-                            Log.i("ConcertRepository", "refresh: $concert")
-                            insertItem(concert)
-                        }
+            Log.e("ConcertRepository", "Refresh will be called")
+            concertApiService.getConcertsAsFlow().collect { response ->
+                response.let {
+                    for (concert in it.concerts.asDomainObjects()) {
+                        Log.i("ConcertRepository", "refresh: $concert")
+                        insertItem(concert)
                     }
                 }
-
+            }
         } catch (e: HttpException) {
-            Log.e("ConcertRepository_HTTP", "refresh: ${e.message()}")
+            Log.e("ConcertRepository", "refresh: ${e.message()}")
         } catch (e: IOException) {
-            Log.e("ConcertRepository_IO", "refresh: ${e.message}")
+            Log.e("ConcertRepository", "refresh: ${e.message}")
+        } catch (e: SocketTimeoutException) {
+            Log.e("ConcertRepository", "Backend connection failed: ${e.message}")
         } catch (e: Exception) {
             Log.e("ConcertRepository_EX", "refresh: ${e.message}")
         }

@@ -1,5 +1,6 @@
 package com.example.androidconcertapp.ui.components
 
+import android.content.Context
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Home
@@ -13,22 +14,23 @@ import androidx.compose.ui.platform.LocalContext
 import com.example.androidconcertapp.ui.loginScreen.UserState
 
 @Composable
-fun ConcertAppBottomBar(goHome: () -> Unit, saveConcertsToApi: () -> Unit) {
+fun ConcertAppBottomBar(goHome: () -> Unit, saveConcertsToApi: () -> Unit, onLogout: (Context) -> Unit) {
     val context = LocalContext.current
-    val viewModel = UserState.current
     BottomAppBar(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
         contentColor = MaterialTheme.colorScheme.primary,
         actions = {
-            IconButton(onClick = { viewModel.onLogout(context) }) {
+            IconButton(onClick = { onLogout(context) }) {
                 Icon(Icons.Filled.ExitToApp, contentDescription = "Log Out")
             }
             IconButton(onClick = goHome) {
                 Icon(Icons.Filled.Home, contentDescription = "Go home")
             }
-            IconButton(onClick = { saveConcertsToApi() }) {
+            IconButton(onClick = saveConcertsToApi) {
                 Icon(Icons.Filled.Save, contentDescription = "Save concerts to Api")
             }
         },
     )
 }
+
+

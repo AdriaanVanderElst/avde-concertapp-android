@@ -5,6 +5,7 @@ import android.util.Log
 import com.example.androidconcertapp.model.User
 import com.example.androidconcertapp.network.ApiUser
 import com.example.androidconcertapp.network.UserApiService
+import java.net.SocketTimeoutException
 
 
 interface UserRepository {
@@ -25,16 +26,14 @@ class UserRepositoryImpl(private val userApiService: UserApiService) : UserRepos
             if (response.isSuccessful) {
                 // Log a success message if adding user succeeds
                 Log.i("UserRepository", "User added successfully")
-            } else {
-                // Log an error message if adding user fails
-                Log.e("UserRepository", "Error in creating user")
             }
         } catch (e: Exception) {
             // Log an error message if adding user fails
             Log.e("UserRepository", "Error in creating user: ${e.message}")
+        } catch (e: SocketTimeoutException) {
+            Log.e("UserRepository", "Backend connection failed: ${e.message}")
         }
     }
-
 
 
     private suspend fun userExists(id: String): Boolean {
@@ -47,22 +46,4 @@ class UserRepositoryImpl(private val userApiService: UserApiService) : UserRepos
             false
         }
     }
-
-    //    override suspend fun addUser(user: User): ApiUser {
-//        val apiUser = ApiUser(null, user.name, user.id)
-//        try {
-//            val existingUser = userApiService.getUserByAuthId(user.id)
-//            return existingUser
-//        } catch (e: Resources.NotFoundException) {
-//            Log.e("UserRepository", "User Doesn't Exist: ${e.message}")
-//        }
-//        try {
-//            userApiService.addUser(apiUser)
-//            return apiUser
-//        } catch (e: Exception) {
-//            Log.e("UserRepository", "Error in creating user: ${e.message}")
-//        }
-//        return null!!
-//    }
-
 }

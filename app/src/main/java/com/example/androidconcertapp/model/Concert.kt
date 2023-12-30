@@ -16,6 +16,4 @@ data class Concert(
     val email: String,
     val user: String,
     val comment: String,
-) {
-
-}
+)

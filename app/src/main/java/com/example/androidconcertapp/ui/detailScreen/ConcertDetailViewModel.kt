@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+// THIS CLASS IS UNUSED
 class ConcertDetailViewModel(
     private val concertRepository: ConcertRepository,
     cId: Int

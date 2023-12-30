@@ -1,33 +1,40 @@
 package com.example.androidconcertapp.ui
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import android.content.Context
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Save
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.PermanentDrawerSheet
+import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.androidconcertapp.R
 import com.example.androidconcertapp.ui.components.ConcertAppBottomBar
 import com.example.androidconcertapp.ui.components.ConcertAppTopBar
+import com.example.androidconcertapp.ui.components.ConcertNavigationRail
+import com.example.androidconcertapp.ui.components.NavigationDrawerContent
 import com.example.androidconcertapp.ui.listScreen.ConcertListViewModel
 import com.example.androidconcertapp.ui.loginScreen.UserState
 import com.example.androidconcertapp.ui.navigation.ConcertScreen
 import com.example.androidconcertapp.ui.navigation.NavComponent
 import com.example.androidconcertapp.ui.navigation.NavigationType
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConcertApp(
     navigationType: NavigationType,
@@ -45,21 +52,6 @@ fun ConcertApp(
             inclusive = false,
         )
     }
-//    val goHomeAfterLogin: () -> Unit = {
-//        navController.navigate(ConcertScreen.List.name) {
-//            popUpTo(ConcertScreen.Login.name) {
-//                inclusive = true
-//            }
-//        }
-//    }
-
-//    val goToLogin: () -> Unit = {
-//        navController.navigate(ConcertScreen.Login.name) {
-//            popUpTo(ConcertScreen.List.name) {
-//                inclusive = true
-//            }
-//        }
-//    }
 
     val goToDetail: (id: Int) -> Unit = { id ->
         sharedViewModel.setConcertDetail(id)
@@ -71,43 +63,104 @@ fun ConcertApp(
         goHome()
     }
 
+    val onLogout: (Context) -> Unit = {
+        userStateVm.onLogout(it)
+    }
+
     val currentScreenTitle = ConcertScreen.valueOf(
         backStackEntry?.destination?.route?.substringBefore("/") ?: ConcertScreen.List.name,
     ).title
 
     if (userStateVm.isBusy) {
-        Column(
-            modifier = Modifier.padding(all = 32.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
+        Box(
+            modifier = Modifier
+                .width(100.dp)
+                .padding(16.dp),
+            contentAlignment = Alignment.Center,
         ) {
             CircularProgressIndicator()
         }
     } else {
-        Scaffold(
-            topBar = {
-                ConcertAppTopBar(
-                    canNavigateBack = canNavigateBack,
-                    navigateUp = navigateUp,
-                    currentScreenTitle = currentScreenTitle,
-                )
-            },
-            bottomBar = { ConcertAppBottomBar(goHome, saveConcertsToApi) },
-//            floatingActionButton = {
-//                FloatingActionButton(onClick = { saveConcertsToApi() }) {
-//                    Icon(Icons.Default.Save, contentDescription = "Save concerts to database")
-//                }
-//            }
-        ) { innerPadding ->
+        if (navigationType == NavigationType.PERMANENT_NAVIGATION_DRAWER) {
+            PermanentNavigationDrawer(drawerContent = {
+                PermanentDrawerSheet(Modifier.width(dimensionResource(R.dimen.drawer_width))) {
+                    NavigationDrawerContent(
+                        goHome = goHome,
+                        onLogout = onLogout,
+                        saveConcertsToApi = saveConcertsToApi,
+                        modifier = Modifier
+                            .wrapContentWidth()
+                            .fillMaxHeight()
+                            .background(MaterialTheme.colorScheme.inverseOnSurface)
+                            .padding(dimensionResource(R.dimen.drawer_padding_content)),
+                    )
+                }
+            }) {
+                Scaffold(
+                    topBar = {
+                        ConcertAppTopBar(
+                            canNavigateBack = canNavigateBack,
+                            navigateUp = navigateUp,
+                            currentScreenTitle = currentScreenTitle,
+                        )
+                    },
+                ) { innerPadding ->
+                    NavComponent(
+                        navController = navController,
+                        sharedViewModel = sharedViewModel,
+                        modifier = Modifier.padding(innerPadding),
+                        goToDetail = goToDetail,
+                    )
+                }
+            }
+        } else if (navigationType == NavigationType.BOTTOM_NAVIGATION) {
 
-            NavComponent(
-                navController = navController,
-                sharedViewModel = sharedViewModel,
-//            loginViewModel = loginViewModel,
-                modifier = Modifier.padding(innerPadding),
-//            goHomeAfterLogin = goHomeAfterLogin,
-                goToDetail = goToDetail,
-            )
+            Scaffold(
+                topBar = {
+                    ConcertAppTopBar(
+                        canNavigateBack = canNavigateBack,
+                        navigateUp = navigateUp,
+                        currentScreenTitle = currentScreenTitle,
+                    )
+                },
+                bottomBar = { ConcertAppBottomBar(goHome, saveConcertsToApi, onLogout) },
+            ) { innerPadding ->
+                NavComponent(
+                    navController = navController,
+                    sharedViewModel = sharedViewModel,
+                    modifier = Modifier.padding(innerPadding),
+                    goToDetail = goToDetail,
+                )
+            }
+
+        } else {
+            Row {
+                AnimatedVisibility(visible = navigationType == NavigationType.NAVIGATION_RAIL) {
+                    ConcertNavigationRail(
+                        goHome = goHome, onLogout = onLogout, saveConcertsToApi = saveConcertsToApi
+                    )
+                }
+                Scaffold(
+                    topBar = {
+                        ConcertAppTopBar(
+                            canNavigateBack = canNavigateBack,
+                            navigateUp = navigateUp,
+                            currentScreenTitle = currentScreenTitle,
+                        )
+                    },
+                ) { innerPadding ->
+                    NavComponent(
+                        navController = navController,
+                        sharedViewModel = sharedViewModel,
+                        modifier = Modifier.padding(innerPadding),
+                        goToDetail = goToDetail,
+                    )
+                }
+            }
         }
+
     }
 }
+
+
+

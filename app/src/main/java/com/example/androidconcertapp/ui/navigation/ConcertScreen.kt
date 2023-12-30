@@ -5,6 +5,6 @@ import com.example.androidconcertapp.R
 
 enum class ConcertScreen(@StringRes val title: Int) {
     Login(title = R.string.login),
-    List(title = R.string.app_name),
+    List(title = R.string.list),
     Detail(title = R.string.detail),
 }

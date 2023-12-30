@@ -3,6 +3,7 @@ package com.example.androidconcertapp.ui.detailScreen
 import com.example.androidconcertapp.model.Concert
 import org.w3c.dom.Comment
 
+// THIS CLASS IS UNUSED
 data class ConcertDetailState(
     val comment: String = "",
 )
