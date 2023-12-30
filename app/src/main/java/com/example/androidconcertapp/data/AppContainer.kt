@@ -57,6 +57,11 @@ class DefaultAppContainer(private val appContext: Context) : AppContainer {
     }
 }
 
+/**
+ * An interceptor that adds the bearer token to the request header.
+ *
+ * @property context the application context.
+ */
 class AuthInterceptor(context: Context) : Interceptor {
     private val sharedPrefs = context.getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE)
     private val bearerToken = sharedPrefs.getString("bearerToken", "")
@@ -69,6 +74,9 @@ class AuthInterceptor(context: Context) : Interceptor {
     }
 }
 
+/**
+ * An interceptor that logs the request url.
+ */
 class HttpLoggingInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
@@ -77,6 +85,9 @@ class HttpLoggingInterceptor : Interceptor {
     }
 }
 
+/**
+ * An interceptor that logs the response code and body if the response is not successful.
+ */
 class NonSuccessfullResponseInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val response = chain.proceed(chain.request())
