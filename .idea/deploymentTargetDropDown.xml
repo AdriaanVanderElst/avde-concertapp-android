@@ -2,32 +2,7 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="app">
-        <State>
-          <targetSelectedWithDropDown>
-            <Target>
-              <type value="QUICK_BOOT_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\adria\.android\avd\Resizable_Experimental_API_34.avd" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2023-12-30T11:42:23.716687100Z" />
-        </State>
-      </entry>
-      <entry key="daoGetAllConcerts_returnsConcertsFromRoom()">
-        <State />
-      </entry>
-      <entry key="daoGetConcertById_returnsConcertFromRoom()">
-        <State />
-      </entry>
-      <entry key="daoInsert_insertConcertInRoom()">
-        <State />
-      </entry>
-      <entry key="daoUpdateConcert_updatesConcertInRoom()">
+      <entry key="App">
         <State />
       </entry>
     </value>

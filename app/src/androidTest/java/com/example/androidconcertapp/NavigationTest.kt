@@ -21,7 +21,7 @@ import org.junit.Test
 
 class FakeUserRepository : UserRepository {
     override suspend fun addUser(user: User) {
-        "Do nothing"
+        // do nothing
     }
 }
 
@@ -42,8 +42,7 @@ class NavigationTest {
 
             CompositionLocalProvider(LocalUserState provides userStateTest) {
                 ConcertApp(
-                    navController = navController,
-                    navigationType = NavigationType.BOTTOM_NAVIGATION
+                    navController = navController, navigationType = NavigationType.BOTTOM_NAVIGATION
                 )
             }
         }
@@ -51,19 +50,13 @@ class NavigationTest {
 
     @Test
     fun verifyStartDestination() {
-        composeTestRule
-            .onNodeWithText("Overzicht")
-            .assertIsDisplayed()
+        composeTestRule.onNodeWithText("Overzicht").assertIsDisplayed()
     }
 
     @Test
     fun navigateToHome() {
-        composeTestRule
-            .onNodeWithContentDescription("navigate to home page")
-            .performClick()
-        composeTestRule
-            .onNodeWithText("Overzicht")
-            .assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("navigate to home page").performClick()
+        composeTestRule.onNodeWithText("Overzicht").assertIsDisplayed()
     }
 
     // This won't work -- Only works when data is loaded from ConcertRepository
