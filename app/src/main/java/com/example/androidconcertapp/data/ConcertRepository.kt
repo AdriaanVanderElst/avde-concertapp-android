@@ -128,7 +128,7 @@ class CachingConcertRepository(
 
     override suspend fun refresh() {
         try {
-            Log.e("ConcertRepository", "Refresh will be called")
+            Log.d("ConcertRepository", "Refresh will be called")
             concertApiService.getConcertsAsFlow().collect { response ->
                 response.let {
                     for (concert in it.concerts.asDomainObjects()) {
