@@ -5,7 +5,7 @@ import com.example.androidconcertapp.data.AppContainer
 import com.example.androidconcertapp.data.DefaultAppContainer
 
 /**
- * The main application class.
+ * The main application class of the app.
  *
  * @property container The [AppContainer] used for dependency injection.
  */
