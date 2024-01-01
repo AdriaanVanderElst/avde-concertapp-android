@@ -30,7 +30,7 @@ interface AppContainer {
  * @property appContext the application context.
  */
 class DefaultAppContainer(private val appContext: Context) : AppContainer {
-    private val baseUrl = "http://10.0.2.2:9000/api/"
+    private val baseUrl = "https://concertapi-service-app.onrender.com/api/"
     private val retrofit = Retrofit.Builder()
         .addConverterFactory(
             Json.asConverterFactory("application/json".toMediaType()),
@@ -60,7 +60,7 @@ class DefaultAppContainer(private val appContext: Context) : AppContainer {
 /**
  * An interceptor that adds the bearer token to the request header.
  *
- * @property context the application context.
+ * @property context the context of the app.
  */
 class AuthInterceptor(context: Context) : Interceptor {
     private val sharedPrefs = context.getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE)

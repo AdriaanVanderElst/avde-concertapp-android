@@ -61,13 +61,13 @@ class UserStateViewModel(private val userRepository: UserRepository) : ViewModel
                     }
 
                     override fun onSuccess(result: Credentials) {
-                        Log.d("Access Token", result.accessToken)
+                        Log.d("Bearer token", result.idToken)
                         user = User(result.idToken, result.accessToken)
                         user.accessToken?.let { saveTokenToSharedPreferences(context, it) }
                         Log.d("UserInfo", "${user.name} with id: ${user.id} logged in.")
-                        viewModelScope.launch {
-                            userRepository.addUser(user)
-                        }
+//                        viewModelScope.launch {
+//                            userRepository.addUser(user)
+//                        }
                         isBusy = false
                         isLoggedIn = true
                     }
