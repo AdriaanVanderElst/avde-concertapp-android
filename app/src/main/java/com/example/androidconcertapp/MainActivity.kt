@@ -17,7 +17,7 @@ import com.example.androidconcertapp.ui.loginScreen.UserStateViewModel
 import com.example.androidconcertapp.ui.theme.ConcertAppTheme
 
 /**
- * The main activity of the app.
+ * The main activity of the application.
  */
 class MainActivity : ComponentActivity() {
     private val userState by viewModels<UserStateViewModel>(factoryProducer = { UserStateViewModel.Factory })
